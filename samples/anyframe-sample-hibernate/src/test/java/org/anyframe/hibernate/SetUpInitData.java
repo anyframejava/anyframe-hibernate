@@ -12,9 +12,9 @@ import org.hibernate.Session;
 public class SetUpInitData {
 
 	/**
-	 * 데이터 조회를 수행하기 위한 초기 데이터를 셋팅한다. <br>
-	 * Category : Movie = m:n으로 양방향 관계로 정의되어 있으며, Category 클래스가 Master 역할 수행
-	 * Country : Movie = 1:m으로 양방향 관계로 정의되어 있으며, Movie 클래스가 Master 역할 수행
+	 * Initial data is set for searching data.  <br>
+	 * Category : Movie = Category : Movie = m:n is defined as two-way relation and Category class serves as Master. 
+	 * Country : Movie = Category : Movie = m:n is defined as one-way relation and Movie class serves as Master. 
 	 * <ul>
 	 * <li>Category : [CTGR-0001, Romantic, Romantic genre], [CTGR-0002,
 	 * Comedy, Comedy genre], [CTGR-0003,Horror,Thriller genre]</li>

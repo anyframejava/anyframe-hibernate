@@ -6,18 +6,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
-
 /**
  * TestCase Name : HibernateJDBCTransactionManager<br>
  * <br>
- * [Description] : Spring Framework에서 제공하는 Hibernate JDBC Transaction Manager인
- * HibernateTransactionManager를 이용하여 트랜잭션이 제대로 관리되는지 확인한다.<br>
+ * [Description] : It is checked whether transaction is well managed with
+ * HibernateTransactionManager, Hibernate JDBC Transaction Manager, provided at
+ * Spring Framework.<br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : HibernateTransactionManager Rollback을 이용하여, 초기화 데이터의
- * 입력 작업을 취소시킨 후, 데이터가 제대로 Rollback되었는지 검증한다.</li>
- * <li>#-2 Positive Case : HibernateTransactionManager Commit을 이용하여, 초기화 데이터의
- * 입력 작업을 DB에 반영시킨 후, 데이터가 제대로 Commit되었는지 검증한다.</li>
+ * <li>#-1 Positive Case : By using HibernateTransactionManager Rollback,
+ * entering initialization data is cancelled. After that, it is verified whether
+ * data is properly rolled back.</li>
+ * <li>#-2 Positive Case : By using HibernateTransactionManager commit, entering
+ * initialization data is applied on to DB. After that, it is verified whether
+ * data is properly committed.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -35,8 +37,9 @@ public class HibernateJDBCTransactionManagerTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : HibernateTransactionManager Rollback을 이용하여,
-	 * 초기화 데이터의 입력 작업을 취소시킨 후, 데이터가 제대로 Rollback되었는지 검증한다.
+	 * [Flow #-1] Positive Case : By using HibernateTransactionManager Rollback,
+	 * entering initialization data is cancelled. After that, it is verified
+	 * whether data is properly rolled back.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -60,8 +63,9 @@ public class HibernateJDBCTransactionManagerTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : HibernateTransactionManager Commit을 이용하여, 초기화
-	 * 데이터의 입력 작업을 DB에 반영시킨 후, 데이터가 제대로 Commit되었는지 검증한다.
+	 * [Flow #-2] Positive Case : By using HibernateTransactionManager commit,
+	 * entering initialization data is applied on to DB. After that, it is
+	 * verified whether data is properly committed.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

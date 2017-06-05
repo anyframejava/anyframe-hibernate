@@ -184,9 +184,6 @@
 					directly outside when applying 2LC, note that detailed cache
 					configuration is needed
 					for data synchronization.
-					단, 2LC를 적용하고자 할 경우 해당 어플리케이션을 통하지 않고, 
-					외부에서 직접적으로 DB 정보가 수정될 가능성이
-          있다면 데이터의 동기화를 위해 세밀한 Cache 속성 제어가 필요함에 유의하도록 한다.
         	</para>
 		</section>
 
@@ -338,7 +335,6 @@ java.naming.provider.url=tcp://localhost:61616]]></programlisting>
 	              			After searching specific data at application A, when you
 								search the same data in application B, checks whether the data is
 								searched without executing any query statement.
-								즉, 어플리케이션 B는 DB에 접근하지 않고 Cache를 통해 데이터를 조회하는지 확인 한다.
 	             		</para>
 	            	</listitem>
 	

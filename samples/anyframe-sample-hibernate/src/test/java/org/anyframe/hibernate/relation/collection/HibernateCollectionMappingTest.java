@@ -19,24 +19,31 @@ import org.anyframe.util.DateUtil;
 /**
  * TestCase Name : HibernateCollectionMappingTest<br>
  * <br>
- * [Description] : 1:m 관계에 놓인 두 객체에 대해 m 측의 객체를 매핑하기 위한 데이터 형태(Set, List, Map,
- * Bag, IdBag)와 각 데이터 형태별 처리 방법의 차이에 대해 알아본다.<br>
+ * [Description] : Data type(Set, List, Map, Bag, IdBag is to map m-side object
+ * on two objects which has 1:m relation. Each data type and each handling way
+ * are looked into. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에 속한
- * Movie Collection을 Set 형태로 매핑한 후 신규 Country 정보를 등록한다. 이때, Movie Collection은
- * Set 형태로 관리되므로, 중복된 데이터가 존재하지 않고 순서가 없다. </li>
- * <li>#-2 Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에 속한
- * Movie Collection을 List 형태로 매핑한 후 신규 Country 정보를 등록한다. 이때, Movie Collection은
- * List 형태로 관리되므로, 순서가 관리된다.</li>
- * <li>#-3 Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에 속한
- * Movie Collection을 Map 형태로 매핑한 후 신규 Country 정보를 등록한다. 이때, Movie Collection은
- * Map 형태로 관리되므로, (key, value) 형태로 저장된다.</li>
- * <li>#-4 Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에 속한
- * Movie Collection을 Bag(Collection) 형태로 매핑한 후 신규 Country 정보를 등록한다. Bag은 Set과
- * 비슷하나 Country에 속한 모든 Movie 객체를 로드하지 않고도 신규 Movie 객체를 추가할 수 있으므로 성능면에서 유리하다.</li>
- * <li>#-5 Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에 속한
- * Movie Collection을 IdBag(Collection) 형태로 매핑한 후 신규 Country 정보를 등록한다.</li>
+ * <li>#-1 Positive Case : Movie Collection has Country:Movie= 1:m relation and
+ * belongs to a specific Country. After mapping this in the type of Set, new
+ * Country information is registered. In this case, Movie Collection is managed
+ * in the type of Set. Therefore, there is no repetitive data and no order.</li>
+ * <li>#-2 Positive Case : Country : Movie Collection has Country:Movie= 1:m
+ * relation and belongs to a specific Country. After mapping this in the type of
+ * List, new Country information is registered. In this case, Movie Collection
+ * is managed in the type of List. Therefore, order is managed.</li>
+ * <li>#-3 Positive Case : Movie Collection has Country:Movie= 1:m relation and
+ * belongs to a specific Country. After mapping this in the type of Map, new
+ * Country information is registered. In this case, Movie Collection is managed
+ * in the type of Map. Therefore, it is stored in the type of (key, value).</li>
+ * <li>#-4 Positive Case : Movie Collection has Country : Movie = 1:m relation
+ * and belongs to a specific Country. After mapping this in the type of
+ * IdBag(Collection), new Country information is registered. Bag is similar to
+ * Set. However, given that Bag can add new Movie object without loading all
+ * Movie objects belonging to Country, it has advantage performance-wise.</li>
+ * <li>#-5 Positive Case : Movie Collection has Country : Movie = 1:m relation
+ * and belongs to a specific Country. After mapping this in the type of
+ * IdBag(Collection), new Country information is registered.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -44,9 +51,11 @@ import org.anyframe.util.DateUtil;
 public class HibernateCollectionMappingTest extends AbstractTest {
 
 	/**
-	 * [Flow #-1] Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에
-	 * 속한 Movie Collection을 Set 형태로 매핑한 후 신규 Country 정보를 등록한다. 이때, Movie
-	 * Collection은 Set 형태로 관리되므로, 중복된 데이터가 존재하지 않고 순서가 없다.
+	 * [Flow #-1] Positive Case : Movie Collection has Country:Movie= 1:m
+	 * relation and belongs to a specific Country. After mapping this in the
+	 * type of Set, new Country information is registered. In this case, Movie
+	 * Collection is managed in the type of Set. Therefore, there is no
+	 * repetitive data and no order.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -89,9 +98,10 @@ public class HibernateCollectionMappingTest extends AbstractTest {
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에
-	 * 속한 Movie Collection을 List 형태로 매핑한 후 신규 Country 정보를 등록한다. 이때, Movie
-	 * Collection은 List 형태로 관리되므로, 순서가 관리된다.
+	 * [Flow #-2] Positive Case : Movie Collection has Country:Movie= 1:m
+	 * relation and belongs to a specific Country. After mapping this in the
+	 * type of List, new Country information is registered. In this case, Movie
+	 * Collection is managed in the type of List. Therefore, order is managed.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -134,9 +144,11 @@ public class HibernateCollectionMappingTest extends AbstractTest {
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에
-	 * 속한 Movie Collection을 Map 형태로 매핑한 후 신규 Country 정보를 등록한다. 이때, Movie
-	 * Collection은 Map 형태로 관리되므로, (key, value) 형태로 저장된다.
+	 * [Flow #-3] Positive Case : Movie Collection has Country:Movie= 1:m
+	 * relation and belongs to a specific Country. After mapping this in the
+	 * type of Map, new Country information is registered. In this case, Movie
+	 * Collection is managed in the type of Map. Therefore, it is stored in the
+	 * type of (key, value).
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -180,10 +192,12 @@ public class HibernateCollectionMappingTest extends AbstractTest {
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에
-	 * 속한 Movie Collection을 Bag(Collection) 형태로 매핑한 후 신규 Country 정보를 등록한다. Bag은
-	 * Set과 비슷하나 Country에 속한 모든 Movie 객체를 로드하지 않고도 신규 Movie 객체를 추가할 수 있으므로 성능면에서
-	 * 유리하다.
+	 * [Flow #-4] Positive Case : Movie Collection has Country : Movie = 1:m
+	 * relation and belongs to a specific Country. After mapping this in the
+	 * type of IdBag(Collection), new Country information is registered. Bag is
+	 * similar to Set. However, given that Bag can add new Movie object without
+	 * loading all Movie objects belonging to Country, it has advantage
+	 * performance-wise.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -224,8 +238,9 @@ public class HibernateCollectionMappingTest extends AbstractTest {
 	}
 
 	/**
-	 * [Flow #-5] Positive Case : Country : Movie = 1 : m 관계에 놓여 있고, 특정 Country에
-	 * 속한 Movie Collection을 IdBag(Collection) 형태로 매핑한 후 신규 Country 정보를 등록한다.
+	 * [Flow #-5] Positive Case : Movie Collection has Country : Movie = 1:m
+	 * relation and belongs to a specific Country. After mapping this in the
+	 * type of IdBag(Collection), new Country information is registered.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

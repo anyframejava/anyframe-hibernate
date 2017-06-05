@@ -17,17 +17,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateCriteriaWithDefinedResult<br>
  * <br>
- * [Description] : Criteria를 이용한 조회 결과를 별도 정의한 객체 형태로 전달받을 수 있다.<br>
+ * [Description] : Search result using Criteria can be passed in the type of
+ * Object.<br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Criteria 이용한 조회 결과를
- * Movie 객체 형태로 전달받는다.</li>
- * <li>#-2 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Criteria 이용한 조회 결과를
- * Map 형태로 전달받는다.</li>
+ * <li>#-1 Positive Case : Search result using Criteria for two tables witch
+ * have Relation is passed in the type of Movie object.</li>
+ * <li>#-2 Positive Case : Search result using Criteria for two tables witch
+ * have Relation is passed in the type of Map.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -40,8 +40,8 @@ public class HibernateCriteriaWithDefinedResult extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Criteria 이용한
-	 * 조회 결과를 Movie 객체 형태로 전달받는다.
+	 * [Flow #-1] Positive Case : Search result using Criteria for two tables
+	 * witch have Relation is passed in the type of Movie object.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -101,8 +101,8 @@ public class HibernateCriteriaWithDefinedResult extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Criteria를 이용한
-	 * 조회 결과를 Map 형태로 전달받는다.
+	 * [Flow #-2] Positive Case : Search result using Criteria for two tables
+	 * witch have Relation is passed in the type of Map.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

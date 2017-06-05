@@ -1,6 +1,5 @@
 package org.anyframe.hibernate.basic;
 
-
 import org.anyframe.hibernate.AbstractConfigurationalTransactionalTest;
 import org.anyframe.sample.hibernate.model.bidirection.Country;
 import org.hibernate.CacheMode;
@@ -11,11 +10,12 @@ import org.junit.runners.JUnit4;
 /**
  * TestCase Name : HibernateMultiDataSaveTest <br>
  * <br>
- * [Description] : 하나의 트랜잭션 내에서 여러 건의 데이터를 추가할 때, 고려해야 할 사항들을 테스트케이스를 통해 알아보고자
- * 한다. <br>
+ * [Description] : When various cases of data are added within one transaction,
+ * considerations via testcase are looked into. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : 하나의 트랜잭션 내에서 여러 건의 데이터를 추가한다.</li>
+ * <li>#-1 Positive Case : Added are various amounts of data within one
+ * transaction.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -28,11 +28,14 @@ public class HibernateMultiDataSaveTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 여러 건의 데이터를 추가한다. 이때, 추가해야 하는 데이터의 건수가 많은 경우
-	 * Memory Full이 발생할 수 있으므로 적당히 중간에 flush를 수행하고 Cache를 clear해 주는 것이 좋다. 이 테스트
-	 * 코드에서는 10건의 신규 데이터가 쌓이면 flush를 시도하게 되는데 hibernate.cfg.xml 파일에 정의된
-	 * hibernate.jdbc.batch_size 값에 따라 10건의 데이터가 한꺼번에씩 batch로 INSERT된다. flush
-	 * 하려는 데이터의 건수와 hibernate.jdbc.batch_size의 값을 맞춰주는 것이 좋다.
+	 * [Flow #-1] Positive Case : Added are various amounts of data. In the case
+	 * where there are many sets of data, memory can be full so that it is
+	 * recommended to somewhat flush in the middle of process and clear cache.
+	 * This test code dictates to flush once ten pieces of data are collected.
+	 * In this case, according to hibernate.jdbc.batch_size value defined in
+	 * hibernate.cfg.xml, 10 pieces of data are inserted into the batch
+	 * simultaneously. It is recommended to match data number for flush and
+	 * value of save(), update(), saveOrUpdate().
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

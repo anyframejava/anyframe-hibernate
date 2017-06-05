@@ -12,33 +12,35 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateIdGeneratorTest<br>
  * <br>
- * [Description] : Hibernate에서 기본 제공하는 각종 Id Generator 정의 방법에 대해 알아보고 신규 Id가 제대로
- * 생성되었는지 확인해본다.<br>
+ * [Description] : Various Id Generator definition ways provided by Hibernate as
+ * default are looked into and it is checked whether a new I.D. is properly
+ * created. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Hibernate에서 제공하는 identity generator를 이용하여 COUNTRY
- * 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.</li>
- * <li>#-2 Positive Case : Hibernate에서 제공하는 sequence generator를 이용하여 COUNTRY
- * 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.</li>
- * <li>#-3 Positive Case : Hibernate에서 제공하는 increment generator를 이용하여 COUNTRY
- * 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.</li>
- * <li>#-4 Positive Case : Hibernate에서 제공하는 Hilo generator를 이용하여 COUNTRY 테이블의
- * PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다. 이때 Hilo Generator의 속성 정보에 max_lo를 2로
- * 설정하였기 때문에 처음 Hilo Generator 실행시 2개의 신규 Id가 생성된다.</li>
- * <li>#-5 Positive Case : Hibernate에서 제공하는 SeqHilo generator를 이용하여 COUNTRY
- * 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다. 이때 SeqHilo Generator의 속성 정보에
- * max_lo를 2로 설정하였기 때문에 처음 SeqHilo Generator 실행시 2개의 신규 Id가 생성된다.</li>
- * <li>#-6 Positive Case : Hibernate에서 제공하는 UUID generator를 이용하여 COUNTRY 테이블의
- * PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.</li>
+ * <li>#-1 Positive Case : COUNTRY_CODE, PRIMARY KEY of table is automatically
+ * created with identity generator provided by Hibernate.</li>
+ * <li>#-2 Positive Case : COUNTRY_CODE, PRIMARY KEY of table is automatically
+ * created with sequence generator provided by Hibernate.</li>
+ * <li>#-3 Positive Case : COUNTRY_CODE, PRIMARY KEY of table is automatically
+ * created with increment generator provided by Hibernate.</li>
+ * <li>#-4 Positive Case : COUNTRY_CODE, PRIMARY KEY of table is automatically
+ * created with Hilo generator provided by Hibernate. In this case, given that
+ * maz lo is set as 2 at Hilo Generator property information, when Hilo
+ * Generator is executed for the first time, two new I.D.s are created.</li>
+ * <li>#-5 Positive Case : COUNTRY_CODE, PRIMARY KEY of table is automatically
+ * created with SeqHilo generator provided by Hibernate. In this case, given
+ * that max lo is set as 2 at SeqHilo Generator property information, when
+ * SeqHilo Generator is executed for the first time, two new I.D.s are created.</li>
+ * <li>#-6 Positive Case : COUNTRY_CODE, PRIMARY KEY of table is automatically
+ * created with UUID generator provided by Hibernate.</li>
  * </ul>
  * 
  * @author SoYon Lim
  */
-@RunWith(JUnit4.class) 
+@RunWith(JUnit4.class)
 public class HibernateIdGeneratorTest extends
 		AbstractConfigurationalTransactionalTest {
 	protected String getHibernateConfigLocation() {
@@ -46,8 +48,8 @@ public class HibernateIdGeneratorTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : Hibernate에서 제공하는 identity generator를 이용하여
-	 * COUNTRY 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.
+	 * [Flow #-1] Positive Case : COUNTRY_CODE, PRIMARY KEY of table is
+	 * automatically created with identitiy generator provided by Hibernate.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -66,8 +68,8 @@ public class HibernateIdGeneratorTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Hibernate에서 제공하는 sequence generator를 이용하여
-	 * COUNTRY 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.
+	 * [Flow #-2] Positive Case : COUNTRY_CODE, PRIMARY KEY of table is
+	 * automatically created with sequence generator provided by Hibernate.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -86,8 +88,8 @@ public class HibernateIdGeneratorTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Hibernate에서 제공하는 increment generator를 이용하여
-	 * COUNTRY 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.
+	 * [Flow #-3] Positive Case : COUNTRY_CODE, PRIMARY KEY of table is
+	 * automatically created with increment generator provided by Hibernate.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -126,9 +128,12 @@ public class HibernateIdGeneratorTest extends
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Hibernate에서 제공하는 Hilo generator를 이용하여 COUNTRY
-	 * 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다. 이때 Hilo Generator의 속성 정보에
-	 * max_lo를 2로 설정하였기 때문에 처음 Hilo Generator 실행시 2개의 신규 Id가 생성된다.
+	 * [Flow #-4] Positive Case : COUNTRY_CODE, PRIMARY KEY of table is
+	 * automatically created with Hilo generator provided by Hibernate. In this
+	 * case, given that max lo is set as 2 at Hilo Generator property
+	 * information, when SeqHilo Generator is executed for the first time, two
+	 * new I.D.s are created.
+	 * 
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -173,9 +178,12 @@ public class HibernateIdGeneratorTest extends
 	}
 
 	/**
-	 * [Flow #-5] Positive Case : Hibernate에서 제공하는 SeqHilo generator를 이용하여
-	 * COUNTRY 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다. 이때 SeqHilo Generator의
-	 * 속성 정보에 max_lo를 2로 설정하였기 때문에 처음 SeqHilo Generator 실행시 2개의 신규 Id가 생성된다.
+	 * [Flow #-5] Positive Case : COUNTRY_CODE, PRIMARY KEY of table is
+	 * automatically created with Hilo generator provided by Hibernate. In this
+	 * case, given that max lo is set as 2 at Hilo Generator property
+	 * information, when SeqHilo Generator is executed for the first time, two
+	 * new I.D.s are created.
+	 * 
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -189,8 +197,8 @@ public class HibernateIdGeneratorTest extends
 		country1.setCountryName("Korea");
 
 		Integer countryCode1 = (Integer) session.save(country1);
-		Assert.assertEquals("fail to generate a new countryCode.", 1, countryCode1
-				.intValue());
+		Assert.assertEquals("fail to generate a new countryCode.", 1,
+				countryCode1.intValue());
 		Assert.assertNotNull(
 				"fail to add a new country with sequence hilo generator.",
 				countryCode1);
@@ -223,8 +231,8 @@ public class HibernateIdGeneratorTest extends
 	}
 
 	/**
-	 * [Flow #-6] Positive Case : Hibernate에서 제공하는 UUID generator를 이용하여 COUNTRY
-	 * 테이블의 PRIMARY KEY인 COUNTRY_CODE를 자동생성하도록 한다.
+	 * [Flow #-6] Positive Case : COUNTRY_CODE, PRIMARY KEY of table is
+	 * automatically created with UUID generator provided by Hibernate.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -233,7 +241,7 @@ public class HibernateIdGeneratorTest extends
 	public void testAddCountryWithUUIDGenerator() throws Exception {
 		CountryWithUUID country1 = new CountryWithUUID();
 		country1.setCountryId("KR");
-		country1.setCountryName("대한민국");
+		country1.setCountryName("korea");
 
 		String countryCode = (String) session.save(country1);
 		Assert.assertTrue("fail to generate a new countryCode.", countryCode

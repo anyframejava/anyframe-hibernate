@@ -12,16 +12,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateNativeSQLPagingTest<br>
  * <br>
- * [Description] : Native SQL 수행시 페이징 처리된 조회 결과를 얻기 위한 방법에 대해 알아본다.<br>
+ * [Description] : How to get paging processed search result in Native SQL
+ * execution is looked into. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : MOVIE 테이블을 대상으로 Native SQL을 이용한 조회 작업을 수행한다. 이때, 조회를
- * 시작해야 하는 Row의 Number(FirstResult)와 조회 목록의 개수(MaxResult)를 정의함으로써, 페이징 처리가
- * 가능해진다.</li>
+ * <li>#-1 Positive Case : Search work targeting MOVIE table is carried out with
+ * Native SQL. In this case, Number(FirstResult) of Row to start search and
+ * search list Number(MaxResult) are defined. Therefore, paging process becomes
+ * possible.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -34,9 +35,10 @@ public class HibernateNativeSQLPagingTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : MOVIE 테이블을 대상으로 Native SQL을 이용한 조회 작업을 수행한다.
-	 * 이때, 조회를 시작해야 하는 Row의 Number(FirstResult)와 조회 목록의 개수(MaxResult)를 정의함으로써,
-	 * 페이징 처리가 가능해진다.
+	 * [Flow #-1] Positive Case : Search work targeting MOVIE table is carried
+	 * out with Native SQL. In this case, Number(FirstResult) of Row to start
+	 * search and search list Number(MaxResult) are defined. Therefore, paging
+	 * process becomes possible.
 	 * 
 	 * @throws Exception
 	 */

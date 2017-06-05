@@ -12,19 +12,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateFetchWithSubselectTest<br>
  * <br>
- * [Description] : Hibernate Lazy Loading으로 발생할 수 있는 N+1 SELECT 문제를 해결하기 위한 하나의
- * Fetch 전략에 대해 알아본다. Hibernate Mapping XML 파일 내에 특정 객체에 대한 fetch 조건을 subselect로
- * 정의하였을 경우, 수행되는 쿼리문의 개수와 쿼리문을 확인해 볼 수 있다.<br>
+ * [Description] : A Fetch strategy is looked into in order to resolve N+1
+ * SELECT issue that can happen due to Hibernate Lazy Loading. In the case of
+ * defining fetch condition on a specific object within Hibernate Mapping XML
+ * file as subselect, the number of executed query statement and query statement
+ * can be checked. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : MOVIE 테이블을 대상으로 HQL을 이용한 조회 작업을 수행한다. (Hibernate
- * Mapping XML 파일에 정의된 Movie:Category 관계에서 Category Set에 대한 Fetch Strategy를
- * Subselect Fetching (fetch="subselect") 으로 정의하였음.) 특정 Movie에 속한 Category Set을
- * 조회하고자 할 때 Sub Query 형태의 SELECT문이 수행된다.</li>
+ * <li>#-1 Positive Case : Search work for MOVIE table is carried out with
+ * HQL.(at Movie:Category relation defined at Hibernate Mapping XML file, Fetch
+ * Strategy on Category Set is defined as Subselect Fetching
+ * ((fetch="subselect").). In the case of searching Category Set belonging to a
+ * specific Movie, SELECT statement is executed in the form of Sub Query.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -37,10 +39,12 @@ public class HibernateFetchWithSubselectTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : MOVIE 테이블을 대상으로 HQL을 이용한 조회 작업을 수행한다.
-	 * (Hibernate Mapping XML 파일에 정의된 Movie:Category 관계에서 Category Set에 대한 Fetch
-	 * Strategy를 Subselect Fetching (fetch="subselect") 으로 정의하였음.) 특정 Movie에 속한
-	 * Category Set을 조회하고자 할 때 Sub Query 형태의 SELECT문이 수행된다.
+	 * [Flow #-1] Positive Case : Search work for MOVIE table is carried out
+	 * with HQL.(at Movie:Category relation defined at Hibernate Mapping XML
+	 * file, Fetch Strategy on Category Set is defined as Subselect Fetching
+	 * ((fetch="subselect").). In the case of searching Category Set belonging
+	 * to a specific Movie, SELECT statement is executed in the form of Sub
+	 * Query.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

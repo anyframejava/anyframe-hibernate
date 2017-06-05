@@ -15,21 +15,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateNamedNativeSQLTest<br>
  * <br>
- * [Description] : Native SQL을 별도 Hibernate Mapping XML 파일 내에 정의하고 정의된 SLQ의
- * name을 입력하여 실행시켜 본다.<br>
+ * [Description] : Native SQL is defined within separate Hibernate Mapping XML
+ * file and defined SQL name is entered and executed. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : 하나의 테이블을 대상으로 Named Native SQL을 이용한 조회 작업을 수행한다.</li>
- * <li>#-2 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Named Native
- * SQL(Inner Join)을 이용한 조회 작업을 수행한다.</li>
- * <li>#-3 Positive Case : 두개의 테이블을 대상으로 검색 조건을 별도 명시한 Named Native SQL을 이용하여
- * 조회 작업을 수행한다.</li>
- * <li>#-4 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Named Native
- * SQL(Right Outer Join)을 이용한 조회 작업을 수행한다.</li>
+ * <li>#-1 Positive Case : Search work is conducted by using Named Native SQL
+ * targeting one table.</li>
+ * <li>#-2 Positive Case : Search work is conducted by using Named Native
+ * SQL(Inner Join) targeting two tables which have Relation.</li>
+ * <li>#-3 Positive Case : Search work is conducted by using Named Native SQL
+ * targeting two tables separately dictating search condition.</li>
+ * <li>#-4 Positive Case : Search work is conducted by using Named Native
+ * SQL(Right Outer Join) targeting two tables which has Relation.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -42,8 +42,8 @@ public class HibernateNamedNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 하나의 테이블을 대상으로 Named Native SQL을 이용한 조회 작업을
-	 * 수행한다.
+	 * [Flow #-1] Positive Case : Search work is conducted by using Named Native
+	 * SQL targeting one table.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -87,8 +87,8 @@ public class HibernateNamedNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Named Native
-	 * SQL(Inner Join)을 이용한 조회 작업을 수행한다.
+	 * [Flow #-2] Positive Case : Search work is conducted by using Named Native
+	 * SQL(Inner Join) targeting two tables which have Relation.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -120,8 +120,8 @@ public class HibernateNamedNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : 두개의 테이블을 대상으로 검색 조건을 별도 명시한 Named Native SQL을
-	 * 이용하여 조회 작업을 수행한다.
+	 * [Flow #-3] Positive Case : Search work is conducted by using Named Native
+	 * SQL targeting two tables separately dictating search condition.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -160,8 +160,8 @@ public class HibernateNamedNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Named Native
-	 * SQL(Right Outer Join)을 이용한 조회 작업을 수행한다.
+	 * [Flow #-4] Positive Case : Search work is conducted by using Named Native
+	 * SQL(Right Outer Join) targeting two tables which has Relation.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

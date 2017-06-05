@@ -10,28 +10,33 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateLazyInitializationExceptionTest<br>
  * <br>
- * [Description] : 한 Session 내에서 Initialize 되지 않은 객체는 해당 Session 종료로 인해 Detached
- * 상태로 변경되었을 때, 객체 정보를 읽어낼 수 없음을 확인할 수 있다.<br>
+ * [Description] : When non-Initialized object is changed into Detached status
+ * within on e Session thanks to relevant Session closing, it is checked object
+ * information cannot be read. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Negative Case : MOVIE 테이블을 대상으로 단건 조회 작업을 수행한다. 그리고, 현재 Session을
- * 종료시킨 후, 앞서 얻어낸 단건의 Movie 정보로부터 관련된 Category 목록 정보를 추출해본다. Session 종료 후, 해당 객체
- * Movie는 Detached 상태로 변경되고 Session 내에서 연관 객체인 Category 목록이 initialize되지 않았으므로,
- * Session 종료 후 연관 객체인 Category 목록 조회시 LazyInitializationException이 throw된다.</li>
- * <li>#-2 Positive Case : MOVIE 테이블을 대상으로 단건 조회 작업을 수행하고 연관 객체인 Category 목록에
- * 대해 iterator() 메소드 호출을 통해 초기화한한다. 그리고, 현재 Session을 종료시킨 후, 앞서 얻어낸 단건의 Movie
- * 정보로부터 관련된 Category 목록 정보를 추출해본다. Session 종료 후, 해당 객체 Movie는 Detached 상태로 변경되고
- * Session 내에서 연관 객체인 Category 목록이 initialize되었으므로, Session 종료 후 연관 객체인 Category
- * 목록 조회시 제대로 된 결과를 얻을 수 있다.</li>
- * <li>#-3 Positive Case : MOVIE 테이블을 대상으로 단건 조회 작업을 수행하고 연관 객체인 Category 목록에
- * 대해 Hibernate.initialize() 메소드 호출을 통해 초기화한한다. 그리고, 현재 Session을 종료시킨 후, 앞서 얻어낸
- * 단건의 Movie 정보로부터 관련된 Category 목록 정보를 추출해본다. Session 종료 후, 해당 객체 Movie는
- * Detached 상태로 변경되고 Session 내에서 연관 객체인 Category 목록이 initialize되었으므로, Session 종료
- * 후 연관 객체인 Category 목록 조회시 제대로 된 결과를 얻을 수 있다.</li>
+ * <li>#-1 Negative Case : Single item search work for MOIVE table is carried
+ * out. And after closing current Session, relevant Category list information is
+ * extracted form single item Movie information gained before.</li>
+ * <li>#-2 Positive Case : Single item search work for MOVIE table is carried
+ * out. The search work for Category list, relevant object, is initialized via
+ * iterator() method. Also, after closing current Session, relevant Category
+ * list information is extracted from single item Movie information gained
+ * before. After Session closing, relevant object Movie is changed into Detached
+ * status and list of Category, relevant object within Session is initialized.
+ * Therefore, in the case of Category list search after Session closing, correct
+ * result can be earned.</li>
+ * <li>#-3 Positive Case : Single item search work for MOVIE table is carried
+ * out. The search work for Category list, relevant object, is initialized via
+ * Hibernate.initialize() method. Also, after closing current Session, relevant
+ * Category list information is extracted from single item Movie information
+ * gained before. After Session closing, relevant object Movie is changed into
+ * Detached status and list of Category, relevant object within Session is
+ * initialized. Therefore, in the case of Category list search after Session
+ * closing, correct result can be earned.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -44,11 +49,13 @@ public class HibernateLazyInitializationExceptionTest extends
 	}
 
 	/**
-	 * [Flow #-1] Negative Case : MOVIE 테이블을 대상으로 단건 조회 작업을 수행한다. 그리고, 현재
-	 * Session을 종료시킨 후, 앞서 얻어낸 단건의 Movie 정보로부터 관련된 Category 목록 정보를 추출해본다.
-	 * Session 종료 후, 해당 객체 Movie는 Detached 상태로 변경되고 Session 내에서 연관 객체인 Category
-	 * 목록이 initialize되지 않았으므로, Session 종료 후 연관 객체인 Category 목록 조회시
-	 * LazyInitializationException이 throw된다.
+	 * [Flow #-1] Negative Case : Single item search work for MOIVE table is
+	 * carried out. And after closing current Session, relevant Category list
+	 * information is extracted form single item Movie information gained
+	 * before. After Session closing, relevant object, Movie, is changed into
+	 * detached status, list of Category, relevant Object within Session is not
+	 * initialized. Therefore, after Session closing, in the case of list search
+	 * of Category, relevant object, LazyInitializationException is thrown.
 	 * 
 	 * @throws Exception
 	 */
@@ -78,11 +85,13 @@ public class HibernateLazyInitializationExceptionTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : MOVIE 테이블을 대상으로 단건 조회 작업을 수행하고 연관 객체인 Category
-	 * 목록에 대해 iterator() 메소드 호출을 통해 초기화한한다. 그리고, 현재 Session을 종료시킨 후, 앞서 얻어낸 단건의
-	 * Movie 정보로부터 관련된 Category 목록 정보를 추출해본다. Session 종료 후, 해당 객체 Movie는
-	 * Detached 상태로 변경되고 Session 내에서 연관 객체인 Category 목록이 initialize되었으므로,
-	 * Session 종료 후 연관 객체인 Category 목록 조회시 제대로 된 결과를 얻을 수 있다.
+	 * [Flow #-2] Positive Case : Single item search work for MOIVE table is
+	 * carried out. And after closing current Session, relevant Category list
+	 * information is extracted form single item Movie information gained
+	 * before. After Session closing, relevant object, Movie, is changed into
+	 * detached status, list of Category, relevant Object within Session is not
+	 * initialized. Therefore, after Session closing, in the case of list search
+	 * of Category, relevant object, LazyInitializationException is thrown.
 	 * 
 	 * @throws Exception
 	 */
@@ -110,11 +119,13 @@ public class HibernateLazyInitializationExceptionTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : MOVIE 테이블을 대상으로 단건 조회 작업을 수행하고 연관 객체인 Category
-	 * 목록에 대해 Hibernate.initialize() 메소드 호출을 통해 초기화한한다. 그리고, 현재 Session을 종료시킨 후,
-	 * 앞서 얻어낸 단건의 Movie 정보로부터 관련된 Category 목록 정보를 추출해본다. Session 종료 후, 해당 객체
-	 * Movie는 Detached 상태로 변경되고 Session 내에서 연관 객체인 Category 목록이 initialize되었으므로,
-	 * Session 종료 후 연관 객체인 Category 목록 조회시 제대로 된 결과를 얻을 수 있다.
+	 * [Flow #-3] Positive Case : Single item search work for MOIVE table is
+	 * carried out. And after closing current Session, relevant Category list
+	 * information is extracted form single item Movie information gained
+	 * before. After Session closing, relevant object, Movie, is changed into
+	 * detached status, list of Category, relevant Object within Session is not
+	 * initialized. Therefore, after Session closing, in the case of list search
+	 * of Category, relevant object, LazyInitializationException is thrown.
 	 * 
 	 * @throws Exception
 	 */

@@ -12,16 +12,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateFetchWithDefaultLazyLoadingTest<br>
  * <br>
- * [Description] : Hibernate Lazy Loading으로 발생할 수 있는 N+1 SELECT 문제에 대해 살펴본다.
- * 수행되는 쿼리문의 개수와 쿼리문을 직접 확인해 볼 수 있다.<br>
+ * [Description] : Hibernate Lazy Loading-led N+1 SELECT issue is looked into.
+ * Executed query statement and its number can be checked by user. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : CATEGORY 테이블을 대상으로 HQL을 이용한 조회 작업을 수행한다. 특정
- * Category에 속한 Movie Set 조회시 Movie 정보 조회를 위한 SELECT문이 수행된다.</li>
+ * <li>#-1 Positive Case : Search work for CATEGORY table is carried out with
+ * HQL. In the case of searching Movie Set belonging to a specific Category,
+ * SELECT statement is executed for Movie information search.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -34,8 +34,9 @@ public class HibernateFetchWithDefaultLazyLoadingTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : CATEGORY 테이블을 대상으로 HQL을 이용한 조회 작업을 수행한다. 특정
-	 * Category에 속한 Movie Set 조회시 Movie 정보 조회를 위한 SELECT문이 수행된다.
+	 * [Flow #-1] Positive Case : Search work for CATEGORY table is carried out
+	 * with HQL. In the case of searching Movie Set belonging to a specific
+	 * Category, SELECT statement is executed for Movie information search.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

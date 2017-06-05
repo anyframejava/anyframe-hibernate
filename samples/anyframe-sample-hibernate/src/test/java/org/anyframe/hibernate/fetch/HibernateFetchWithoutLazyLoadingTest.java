@@ -12,17 +12,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateFetchWithoutLazyLoadingTest<br>
  * <br>
- * [Description] : : Hibernate Lazy Loading으로 발생할 수 있는 N+1 SELECT 문제를 해결하기 위한
- * 하나의 Fetch 전략에 대해 알아본다. 특정 객체 조회를 위한 HQL 내에 "join fetch"를 정의한 경우, 수행되는 쿼리문의
- * 개수와 쿼리문을 확인해 볼 수 있다.<br>
+ * [Description] : : One Fetch strategy to resolve Hibernate Lazy Loading-led
+ * N+SELECT issue is looked into. In the case of defining “join fetch” within
+ * HQL for a specific object search, executed query statements and its number
+ * can be checked. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Fetch Inner
- * Join)을 이용한 조회 작업을 수행한다. 조회 결과 Category Set은 Lazy Loading 없이 한번에 로드된다.</li>
+ * <li>#-1 Positive Case : Search work for two tables which have Relation is
+ * carried out with HQL(Fetch Inner Join). Search result Category Set is loaded
+ * without Lazy Loading.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -36,9 +37,10 @@ public class HibernateFetchWithoutLazyLoadingTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Fetch
-	 * Inner Join)을 이용한 조회 작업을 수행한다. 조회 결과 Category Set은 Lazy Loading 없이 한번에
-	 * 로드된다.
+	 * [Flow #-1] Positive Case : Search work for two tables which have Relation
+	 * is carried out with HQL(Fetch Inner Join). Search result Category Set is
+	 * loaded without Lazy Loading.
+	 * 
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

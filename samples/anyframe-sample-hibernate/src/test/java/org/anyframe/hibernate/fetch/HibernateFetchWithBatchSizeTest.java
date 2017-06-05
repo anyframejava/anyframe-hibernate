@@ -12,24 +12,25 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateFetchWithBatchSizeTest<br>
  * <br>
- * [Description] : Hibernate Lazy Loading으로 발생할 수 있는 N+1 SELECT 문제를 해결하기 위한 하나의
- * Fetch 전략에 대해 알아본다. Hibernate Mapping XML 파일 내에 특정 객체에 대한 batch-size 조건을 정의하였을
- * 경우, 수행되는 쿼리문의 개수와 쿼리문을 확인해 볼 수 있다.<br>
+ * [Description] : One Fetch strategy to resolve Hibernate Laze Loading-led N+1
+ * SELECT issue is looked into. In the case where batch-size condition on a
+ * specific object within Hibernate Mapping XML file is defined, executed query
+ * statements and its number can be checked. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : COUNTRY 테이블을 대상으로 HQL을 이용한 조회 작업을 수행한다. (Hibernate
- * Mapping XML 파일에 정의된 Country:Movie 관계에서 Movie Set에 대한 Fetch Strategy를 Batch
- * Fetching (batch-size="2") 으로 정의하였음.) 특정 Country에 속한 Movie Set을 조회하고자 할 때
- * batch-size를 기반으로 SELECT문이 수행된다.</li>
+ * <li>#-1 Positive Case : Search work for COUNTRY table is carried out with
+ * HQL. (at Country:Movie relation defined at Mapping XML file, Fetch Strategy
+ * on Movie Set is defined as Batch Fetching(batch-size=”2”). When Movie Set
+ * belonging to a specific Country is searched, SELECT statement is executed
+ * based on batch-size.</li>
  * </ul>
  * 
  * @author SoYon Lim
  */
-@RunWith(JUnit4.class) 
+@RunWith(JUnit4.class)
 public class HibernateFetchWithBatchSizeTest extends
 		AbstractConfigurationalTest {
 	protected String getHibernateConfigLocation() {
@@ -37,10 +38,11 @@ public class HibernateFetchWithBatchSizeTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : COUNTRY 테이블을 대상으로 HQL을 이용한 조회 작업을 수행한다.
-	 * (Hibernate Mapping XML 파일에 정의된 Country:Movie 관계에서 Movie Set에 대한 Fetch
-	 * Strategy를 Batch Fetching (batch-size="2") 으로 정의하였음.) 특정 Country에 속한 Movie
-	 * Set을 조회하고자 할 때 batch-size를 기반으로 SELECT문이 수행된다.
+	 * [Flow #-1] Positive Case : Search work for COUNTRY table is carried out
+	 * with HQL. (at Country:Movie relation defined at Hibernate Mapping XML
+	 * file, Fetch Strategy on Movie Set is defined as Batch
+	 * Fetching(batch-size=”2”). When Movie Set belonging to a specific Country
+	 * is searched, SELECT statement is executed based on batch-size.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

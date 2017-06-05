@@ -12,20 +12,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateHQLWithDefinedResult<br>
  * <br>
- * [Description] : HQL(Hibernate Query Language)을 통해 조회 작업을 수행한 후, 조회 작업의 결과를
- * 원하는 객체 형태로 전달받는다.<br>
+ * [Description] : After conducting search work via HQL(Hibernate Query
+ * Language), the result is passed in the wanted object type. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Inner Join)을
- * 이용한 조회 결과를 Movie 객체 형태로를 전달받는다.</li>
- * <li>#-2 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Inner Join)을
- * 이용한 조회 결과를 Map 형태로 전달받는다.</li>
- * <li>#-3 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Inner Join)을
- * 이용한 조회 결과를 List 형태로 전달받는다.</li>
+ * <li>#-1 Positive Case : HQL(Inner Join) is used for two tables who has
+ * Relation. The search result is passed in the Movie object type.</li>
+ * <li>#-2 Positive Case : HQL(Inner Join) is used for two tables who has
+ * Relation. The search result is passed in Map type.</li>
+ * <li>#-3 Positive Case : HQL(Inner Join) is used for two tables who has
+ * Relation. The search result is passed in List type.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -38,8 +37,8 @@ public class HibernateHQLWithDefinedResult extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Inner
-	 * Join)을 이용한 조회 결과를 Movie 객체 형태로를 전달받는다.
+	 * [Flow #-1] Positive Case : HQL(Inner Join) is used for two tables who has
+	 * Relation. The search result is passed in the Movie object type.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -87,8 +86,8 @@ public class HibernateHQLWithDefinedResult extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Inner
-	 * Join)을 이용한 조회 결과를 Map 형태로 전달받는다.
+	 * [Flow #-2] Positive Case : HQL(Inner Join) is used for two tables who has
+	 * Relation. The search result is passed in Map type.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -136,8 +135,8 @@ public class HibernateHQLWithDefinedResult extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Inner
-	 * Join)을 이용한 조회 결과를 List 형태로 전달받는다.
+	 * [Flow #-3] Positive Case : HQL(Inner Join) is used for two tables who has
+	 * Relation. The search result is passed in List type.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

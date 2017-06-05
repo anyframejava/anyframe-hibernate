@@ -10,18 +10,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateSecondLevelCacheTest<br>
  * <br>
- * [Description] : Hibernate 속성 정의 파일 내에 hibernate.cache.use_second_level_cache,
- * hibernate.cache.provider_class 등을 정의하고, 2LC에 저장되어야 할 객체에 대해 &lt;cache&gt; 속성을
- * 정의한 후, DEBUG 모드에서 테스트케이스를 실행시켜보면서 2nd Level Cache 적용으로 인해 DB에 접근하지 않고도 2LC를
- * 통해 객체가 조회되는 것을 살펴볼 수 있다.<br>
+ * [Description] : hibernate.cache.use_second_level_cache,
+ * hibernate.cache.provider_class are defined within Hibernate property
+ * definition file. And &lt;cache&gt; property for object to be stored in 2LC is
+ * defined. While carrying out TestCase at DEBUG mode, it is looked into that
+ * applying the 2nd Level Cache allows to search object via 2LC without
+ * accessing DB. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : COUNTRY 테이블을 대상으로 한건의 Country 정보를 조회한다.</li>
- * <li>#-2 Positive Case : MOVIE 테이블을 대상으로 한건의 Movie 정보를 조회한다.</li>
+ * <li>#-1 Positive Case : Single item of Country information for COUNTRY table
+ * is searched.</li>
+ * <li>#-2 Positive Case : Single item of Country information for MOVIE table is
+ * searched.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -33,9 +36,10 @@ public class HibernateSecondLevelCacheTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : COUNTRY 테이블을 대상으로 한건의 Country 정보를 조회한다. 한
-	 * 어플리케이션 내에서 한 번 조회된 엔티티 정보는 2LC(2 Level Cache)에 저장되므로 다음 조회시 DB에 접근하지 않고도,
-	 * Cache를 통해 조회할 수 있다.
+	 * [Flow #-1] Positive Case : Single item of Movie information for COUNTRY
+	 * table is searched. Entity information once searched within one
+	 * application is stored in 2LC(2 Level Cache). Therefore, for next search,
+	 * there is no need to access DB and information can be searched via Cache.
 	 * 
 	 * @throws Exception
 	 */
@@ -64,9 +68,10 @@ public class HibernateSecondLevelCacheTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : MOVIE 테이블을 대상으로 한건의 Movie 정보를 조회한다. Movie 관련
-	 * Hibernate Mapping XML 파일 내에 2LC 사용 여부를 정의하지 않았으므로, 다른 Session 에서 해당 객체를
-	 * 조회할 경우 매번 DB에 접근하게 된다.
+	 * [Flow #-2] Positive Case : Single item of Movie information for MOVIE
+	 * table is searched. whether 2LC is used is not defined within Hibernate
+	 * Mapping XML file. In the case where relevant object is searched in
+	 * another Session, every time DB is accessed.
 	 * 
 	 * @throws Exception
 	 */

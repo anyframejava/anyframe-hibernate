@@ -7,33 +7,35 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateSpecialCharTest<br>
  * <br>
- * [Description] : Hibernate을 통해 특수 문자가 제대로 처리되는지 확인한다.<br>
+ * [Description] : It is checked special character is properly handled via
+ * Hibernate.<br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Hibernate을 통해 특수 문자가 제대로
- * 처리되는지 확인한다.</li>
- * <li>#-2 Positive Case : Special Character가 정의된
- * Entity 객체를 이용하여 데이터를 수정하고 수정 여부를 확인한다.</li>
- * <li>#-3 Positive Case : Special Character가 정의된
- * Entity 객체를 이용하여 데이터를 삭제하고 삭제 여부를 확인한다.</li>
+ * <li>#-1 Positive Case : It is checked special character is properly handled
+ * via Hibernate.</li>
+ * <li>#-2 Positive Case : Data is modified and modification is checked by using
+ * Entity object defining Special Character.</li>
+ * <li>#-3 Positive Case : Data is deleted and deletion is checked by using
+ * Entity object defining Special Character.</li>
  * </ul>
+ * 
  * @author SoYon Lim
  */
 @RunWith(JUnit4.class)
 public class HibernateSpecialCharTest extends
-        AbstractConfigurationalTransactionalTest {
-    protected String getHibernateConfigLocation() {
-        return "org/anyframe/hibernate/datatype/hibernate.cfg.xml";
-    }
+		AbstractConfigurationalTransactionalTest {
+	protected String getHibernateConfigLocation() {
+		return "org/anyframe/hibernate/datatype/hibernate.cfg.xml";
+	}
 
-    /**
-     * [Flow #-1] Positive Case : Hibernate을 통해 특수 문자가
-     * 제대로 처리되는지 확인한다.
-     * @throws Exception
+	/**
+	 * [Flow #-1] Positive Case : It is checked special character is properly
+	 * handled via Hibernate.
+	 * 
+	 * @throws Exception
      *         throws exception which is from hibernate
      */
     @Test
@@ -55,9 +57,9 @@ public class HibernateSpecialCharTest extends
 
     }
 
-    /**
-     * [Flow #-2] Positive Case : Special Character가
-     * 정의된 Entity 객체를 이용하여 데이터를 수정하고 수정 여부를 확인한다.
+	/**
+	 * [Flow #-2] Positive Case : Data is modified and modification is checked
+	 * by using defined Entity object
      */
     @Test
     public void testUpdateSpecialChar() {
@@ -79,9 +81,9 @@ public class HibernateSpecialCharTest extends
         Assert.assertEquals("Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ", specialChar.getSpecialCharA());
     }
 
-    /**
-     * [Flow #-3] Positive Case : Special Character가
-     * 정의된 Entity 객체를 이용하여 데이터를 삭제하고 삭제 여부를 확인한다.
+	/**
+	 * [Flow #-3] Positive Case : Data is deleted and deletion is checked by
+	 * using defined Entity object
      */
     @Test
     public void testDeleteSpecialChar() {
@@ -101,8 +103,8 @@ public class HibernateSpecialCharTest extends
         Assert.assertNull(specialChar);
     }
 
-    /**
-     * 특수 문자를 데이터를 셋팅하고 DB에 추가한다.
+	/**
+	 * Data is set with special character and added to DB. 
      * @return SpecialChar
      */
     public SpecialChar insertSpecialChar() {

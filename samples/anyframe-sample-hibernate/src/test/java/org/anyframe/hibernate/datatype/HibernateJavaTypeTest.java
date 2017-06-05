@@ -10,22 +10,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateJavaTypeTest<br>
  * <br>
- * [Description] : : Primitive Java Type이 정의된 객체에 대해 등록/수정/삭제/조회를 통해 각 Primitive
- * Java Type을 처리하기 위해 객체에 어떠한 Type으로 정의되어야 하는지, Hibernate Mapping XML 파일 내에
- * 정의되어야 하는 Type은 무엇인지 확인해 볼 수 있다.<br>
+ * [Description] : : In order to handle each Primitive Java Type via
+ * registering/modifying /deleting/searching object defining Primitive Java
+ * Type, it can be checked what type of object should be defined to handle Java
+ * Type and what type should be defined within Hibernate Mapping XML. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Primitive Java Type이 정의된 Entity 객체를 이용하여 데이터를 입력하고
- * 조회한다. Hibernate 매핑 파일을 통해 각 Primitive Java Type에 맞는 Hibernate Mapping Type을 알
- * 수 있다.</li>
- * <li>#-2 Positive Case : Primitive Java Type이 정의된 Entity 객체를 이용하여 데이터를 수정하고
- * 수정 여부를 확인한다.</li>
- * <li>#-3 Positive Case : Primitive Java Type이 정의된 Entity 객체를 이용하여 데이터를 삭제하고
- * 삭제 여부를 확인한다.</li>
+ * <li>#-1 Positive Case : Data is entered and searched using Entity object
+ * defining Primitive Java Type. Hibernate mapping file finds Hibernate Mapping
+ * Type suitable for each primitive Java Type.</li>
+ * <li>#-2 Positive Case : Data is modified and modification is checked by using
+ * Entity object defining Primitive Java Type.</li>
+ * <li>#-3 Positive Case : Data is deleted and deletion is checked by using
+ * Entity object defining Primitive Java Type.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -38,9 +38,9 @@ public class HibernateJavaTypeTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : Primitive Java Type이 정의된 Entity 객체를 이용하여 데이터를
-	 * 입력하고 조회한다. Hibernate 매핑 파일을 통해 각 Primitive Java Type에 맞는 Hibernate
-	 * Mapping Type을 알 수 있다.
+	 * [Flow #-1] Positive Case : Data is entered and searched using Entity
+	 * object defining Primitive Java Type. Hibernate mapping file finds
+	 * Hibernate Mapping Type suitable for each primitive Java Type.
 	 */
 	@Test
 	public void testInsertJavaDataType() {
@@ -73,8 +73,8 @@ public class HibernateJavaTypeTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Primitive Java Type이 정의된 Entity 객체를 이용하여 데이터를
-	 * 수정하고 수정 여부를 확인한다.
+	 * [Flow #-2] Positive Case : Data is modified and modification is checked
+	 * by using Entity object defining Primitive Java Type.
 	 */
 	@Test
 	public void testUpdateJavaDataType() {
@@ -103,8 +103,8 @@ public class HibernateJavaTypeTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Primitive Java Type이 정의된 Entity 객체를 이용하여 데이터를
-	 * 삭제하고 삭제 여부를 확인한다.
+	 * [Flow #-3] Positive Case : Data is deleted and deletion is checked by
+	 * using Entity object defining Primitive Java Type.
 	 */
 	@Test
 	public void testDeleteJavaDataType() {
@@ -128,9 +128,9 @@ public class HibernateJavaTypeTest extends
 	}
 
 	/**
-	 * Primitive Java Type 각각에 맞게 데이터를 셋팅하고 DB에 추가한다.
+	 * Data is set and added to DB according to different Primitive Java Type.
 	 * 
-	 * @return List 입력한 JavaDataType List
+	 * @return List Inserted JavaDataType List
 	 */
 	private List insertJavaDataType() {
 		JavaDataType javaDataType1 = new JavaDataType();

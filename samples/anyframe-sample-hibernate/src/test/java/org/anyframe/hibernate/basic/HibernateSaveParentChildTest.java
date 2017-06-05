@@ -16,22 +16,28 @@ import org.junit.runners.JUnit4;
 /**
  * TestCase Name : HibernateSaveParentChildTest<br>
  * <br>
- * [Description] : 1:n 관계에 놓여 있는 Country:Movie를 대상으로 여러 가지 유형의 순서에 따라 등록 작업을
- * 수행시켜 본다. 이 때, DEBUG 모드에서 각 순서에서 수행되는 쿼리문을 확인해 볼 것을 권장한다.<br>
+ * [Description] : Country: Movie has 1:n relation. According to various types
+ * of order, registration is carried out. In this case, it is recommended to
+ * check executed query statement at each order in DEBUG mode. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : 1:n 관계에 놓여 있는 Country:Movie를 대상으로 주어진 순서에 따라
- * Category와 Movie 정보를 등록한 후, 추가 작업이 제대로 이루어졌는지 확인한다.</li>
- * <li>#-2 Positive Case : 1:n 관계에 놓여 있는 Country:Movie를 대상으로 주어진 순서에 따라
- * Category와 Movie 정보를 등록한 후, 추가 작업이 제대로 이루어졌는지 확인한다.</li>
- * <li>#-3 Positive Case : 1:n 관계에 놓여 있는 Country:Movie를 대상으로 주어진 순서에 따라
- * Category와 Movie 정보를 등록한 후, 추가 작업이 제대로 이루어졌는지 확인한다.</li>
- * <li>#-4 Positive Case : 1:n 관계에 놓여 있는 Country:Movie를 대상으로 주어진 순서에 따라
- * Category와 Movie 정보를 등록한 후, 추가 작업이 제대로 이루어졌는지 확인한다.</li>
- * <li>#-5 Positive Case : 1:n 관계에 놓여 있는 Country:Movie를 대상으로 주어진 순서에 따라
- * Category와 Movie 정보를 등록한 후, 추가 작업이 제대로 이루어졌는지 확인한다.</li>
+ * <li>#-1 Positive Case : Targeting Country:Movie which has 1:n relation.
+ * According to given order, Category and Movie information is registered and
+ * then it is checked addition is correctively carried out.</li>
+ * <li>#-2 Positive Case : Targeting Country:Movie which has 1:n relation.
+ * According to given order, Category and Movie information is registered and
+ * then it is checked addition is correctively carried out.</li>
+ * <li>#-3 Positive Case : Targeting Country:Movie which has 1:n relation.
+ * According to given order, Category and Movie information is registered and
+ * then it is checked addition is correctively carried out.</li>
+ * <li>#-4 Positive Case : Targeting Country:Movie which has 1:n relation.
+ * According to order, Category and Movie information is registered and then it
+ * is checked addition is correctively carried out.</li>
+ * <li>#-5 Positive Case : Targeting Country:Movie which has 1:n relation.
+ * According to order, Category and Movie information is registered and then it
+ * is checked addition is correctively carried out.</li>
  * </ul>
- * (*테스트 케이스의 주어진 순서는 각 메소드 주석을 참고한다.)
+ *(Given order of testcase refers to each method annotation.)
  * 
  * @author SoYon Lim
  */
@@ -42,17 +48,20 @@ public class HibernateSaveParentChildTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 이 테스트케이스는 1:n 관계에 놓여 있는 Country:Movie를 대상으로
-	 * 하며, 다음과 같이 진행된다.
+	 * [Flow #-1] Positive Case : If this TestCase targets Country:Movie whose
+	 * relation is 1:n, it proceeds as follows.
 	 * <ol>
-	 * <li>Session 시작</li>
-	 * <li>Country instance 생성</li>
-	 * <li>Movie instance들 생성</li>
-	 * <li>Country와 Movies 사이에 연관 관계 맺음</li>
-	 * <li>session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
+	 * <li>Session Started</li>
+	 * <li>Country instance is created.</li>
+	 * <li>Movie instance is created.</li>
+	 * <li>Relation is formed between Movies and Country.</li>
+	 * <li>Request is made to reflect instances in DB by calling for
+	 * session.save()</li>
+	 * <li>Session Finished</li>
 	 * </ol>
-	 * 위와 같은 순서로 데이터 추가 작업이 완료된 후에는 추가 작업이 제대로 이루어졌는지 확인한다.
+	 * 
+	 * According to order as above, addition is completed and then it is checked
+	 * addition is correctively carried out.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -74,17 +83,21 @@ public class HibernateSaveParentChildTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : 이 테스트케이스는 1:n 관계에 놓여 있는 Country:Movie를 대상으로
-	 * 하면, 다음과 같이 진행된다.
+	 * [Flow #-2] Positive Case : If this TestCase targets Country:Movie whose
+	 * relation is 1:n, it proceeds as follows.
 	 * <ol>
-	 * <li>Session 시작</li>
-	 * <li>Country instance 생성후, session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Movie instance들 생성</li>
-	 * <li>Country와 Movies 사이에 연관 관계 맺음</li>
-	 * <li>session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
+	 * <li>Session Started</li>
+	 * <li>After creating Country instance, request is made to reflect instances
+	 * in DB by calling for session.save().</li>
+	 * <li>Movie instances are created.</li>
+	 * <li>Relation is formed between Country and Movies.</li>
+	 * <li>Request is made to reflect instances in DB by calling for
+	 * session.save().</li>
+	 * <li>Session Finished</li>
 	 * </ol>
-	 * 위와 같은 순서로 데이터 추가 작업이 완료된 후에는 추가 작업이 제대로 이루어졌는지 확인한다.
+	 * 
+	 * According to order as above, addition is completed and then it is checked
+	 * addition is correctively carried out.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -106,19 +119,22 @@ public class HibernateSaveParentChildTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : 이 테스트케이스는 1:n 관계에 놓여 있는 Country:Movie를 대상으로
-	 * 하면, 다음과 같이 진행된다.
+	 * [Flow #-3] Positive Case : If this TestCase targets Country:Movie whose
+	 * relation is 1:n, it proceeds as follows.
 	 * <ol>
-	 * <li>Session 시작</li>
-	 * <li>Country instance 생성후, session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
-	 * <li>Session 시작</li>
-	 * <li>Movie instance들 생성</li>
-	 * <li>Country와 Movies 사이에 연관 관계 맺음</li>
-	 * <li>session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
+	 * <li>Session Started</li>
+	 * <li>After creating Country instance, request is made to reflect instances
+	 * in DB by calling for session.save().</li>
+	 * <li>Session Completed</li>
+	 * <li>Session Started</li>
+	 * <li>Movie instances are created.</li>
+	 * <li>Relation is formed between Country and Movies.</li>
+	 * <li>Request is made to reflect instances in DB by calling for
+	 * session.save().</li>
+	 * <li>Session Finished</li>
 	 * </ol>
-	 * 위와 같은 순서로 데이터 추가 작업이 완료된 후에는 추가 작업이 제대로 이루어졌는지 확인한다.
+	 * According to order as above, addition is completed and then it is checked
+	 * addition is correctively carried out.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -146,24 +162,30 @@ public class HibernateSaveParentChildTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : 이 테스트케이스는 1:n 관계에 놓여 있는 Country:Movie를 대상으로
-	 * 하면, 다음과 같이 진행된다.
+	 * [Flow #-4] Positive Case : If this TestCase targets Country:Movie whose
+	 * relation is 1:n, it proceeds as follows.
 	 * <ol>
-	 * <li>Session 시작</li>
-	 * <li>Country instance 생성후, session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
-	 * <li>Session 시작</li>
-	 * <li>Movie instance들 생성</li>
-	 * <li>Country와 Movies 사이에 연관 관계 맺음</li>
-	 * <li>session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
-	 * <li>Session 시작</li>
-	 * <li>해당 Country와 연관 관계에 있는 Movie 각각에 대해 수정함.</li>
-	 * <li>해당 Country와 연관 관계에 있는 Movie Set으로부터 마지막 Movie instance 제거.</li>
-	 * <li>session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
+	 * <li>Session Started</li>
+	 * <li>After creating Country instance, request is made to reflect instances
+	 * in DB by calling for session.save().</li>
+	 * <li>Session Finished</li>
+	 * <li>Session Started</li>
+	 * <li>Movie instances are created.</li>
+	 * <li>Relation is formed between new Movie and relevant Country.</li>
+	 * <li>Request is made to reflect instances in DB by calling for
+	 * session.save().</li>
+	 * <li>Session Finished</li>
+	 * <li>Session Started</li>
+	 * <li>Relevant Country and related Movie is each modified.</li>
+	 * <li>Latest Movie instance is removed from Movie Set which is related to
+	 * relevant Country.</li>
+	 * <li>Request is made to reflect instances in DB by calling for
+	 * session.save().</li>
+	 * <li>Session Finished</li>
 	 * </ol>
-	 * 위와 같은 순서로 데이터 추가 작업이 완료된 후에는 추가 작업이 제대로 이루어졌는지 확인한다.
+	 * 
+	 * After data addition is completed according to order as above, it is
+	 * checked addition is properly completed.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -192,29 +214,32 @@ public class HibernateSaveParentChildTest extends AbstractConfigurationalTest {
 		newSession();
 		Country country = (Country) session.get(Country.class, countryCode);
 		Assert.assertEquals("Republic of Korea", country.getCountryName());
-		// movie 데이터가 삭제되지 않았음.
+		// Movie data is not deleted.
 		Assert.assertEquals(2, country.getMovies().size());
 		closeSession();
 	}
 
 	/**
-	 * [Flow #-5] Positive Case : 이 테스트케이스는 1:n 관계에 놓여 있는 Country:Movie를 대상으로
-	 * 하면, 다음과 같이 진행된다.
+	 * [Flow #-5] Positive Case : If this TestCase targets Country:Movie whose
+	 * relation is 1:n, it proceeds as follows.
 	 * <ol>
-	 * <li>Session 시작</li>
-	 * <li>Country instance 생성후, session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Movie instance들 생성</li>
-	 * <li>Country와 Movies 사이에 연관 관계 맺음</li>
-	 * <li>session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
-	 * <li>Session 시작</li>
-	 * <li>해당 Country와 연관 관계에 있는 Movie 각각에 대해 수정함.</li>
-	 * <li>신규 Movie instance 생성</li>
-	 * <li>신규 Movie와 해당 Country 사이에 연관 관계 맺음</li>
-	 * <li>session.save() 호출을 통해 DB에 반영 요청</li>
-	 * <li>Session 종료</li>
+	 * <li>Session Started</li>
+	 * <li>Session Started</li>
+	 * <li>Movie instances are created.</li>
+	 * <li>Relation is formed between new Movie and relevant Country.</li>
+	 * <li>Request is made to reflect instances in DB by calling for
+	 * session.save().</li>
+	 * <li>Session Finished</li>
+	 * <li>Session Started</li>
+	 * <li>Relevant Country and related Movie is each modified.</li>
+	 * <li>New Movie instance is created.</li>
+	 * <li>Relation is formed between new Movie and relevant Country.</li>
+	 * <li>Request is made to reflect instances in DB by calling for
+	 * session.save().</li>
+	 * <li>Session Finished</li>
 	 * </ol>
-	 * 위와 같은 순서로 데이터 추가 작업이 완료된 후에는 추가 작업이 제대로 이루어졌는지 확인한다.
+	 * After completing data addition according to order as above, it is checked
+	 * addition is correctively done.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -351,12 +376,16 @@ public class HibernateSaveParentChildTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * 특정 Country에 속한 Movie 목록을 조회한 후, Movie 정보를 수정한다. 이때, 제일 마지막으로 조회된 Movie
-	 * 정보를 Movie Set에서 제거한 후, 저장한다. 이러한 경우 Movie Set으로부터 마지막 데이터를 제거하여도 수정된 전체
-	 * Movie 객체에 대한 수정 작업이 이루어진다. 그러나 만일, Movie Set이 <composite-element> 형태로
-	 * 정의되어 있다면, Movie Set으로부터 제거된 마지막 데이터는 DB로부터 삭제된다는 것에 유의해야 한다. <br/> 마지막으로
-	 * 조회된 Movie 정보를 수정 대상에서 제외하고자 하는 경우에는 Session.evict(movie)를 호출함으로써, 해당 객체의
-	 * 변경 사항이 DB에 반영되지 않도록 할 수 있다.
+	 * After searching Movie list belonging to a specific Country, Movie
+	 * information is modified. In this case, after removing latest searched
+	 * Movie information from Movie Set, information is saved. In this case,
+	 * even though latest data is removed from Movie Set, modified all Movie
+	 * objects are subject to modification. However, if Movie Set is defined in
+	 * the format of <composite-element>, user should remember that latest data
+	 * removed from Movie Set is deleted from DB. In the case of excepting
+	 * searched Movie information from modification, Session.evict(movie) is
+	 * called for. By doing so, relevant object modification is not reflected in
+	 * DB.
 	 * 
 	 * @param countryCode
 	 * @throws Exception

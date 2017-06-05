@@ -15,20 +15,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateNativeSQLTest<br>
  * <br>
- * [Description] : Hibernate를 통해 Native SQL를 실행시키는 방법에 대해 살펴본다.<br>
+ * [Description] : How to execute Native SQL IS looked into via Hibernate. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : 하나의 테이블을 대상으로 Native SQL을 이용한 조회 작업을 수행한다.</li>
- * <li>#-2 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Native SQL(Inner
- * Join)을 이용한 조회 작업을 수행한다.</li>
- * <li>#-3 Positive Case : 두개의 테이블을 대상으로 검색 조건을 별도 명시한 Native SQL을 이용하여 조회 작업을
- * 수행한다.</li>
- * <li>#-4 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Native SQL(Right
- * Outer Join)을 이용한 조회 작업을 수행한다.</li>
+ * <li>#-1 Positive Case : Search work targeting one table is conducted by using
+ * Native SQL.</li>
+ * <li>#-2 Positive Case : Search work is conducted by using Named Native
+ * SQL(Inner Join) targeting two tables which have Relation.</li>
+ * <li>#-3 Positive Case : Search work is conducted by using Named Native SQL
+ * targeting two tables separately dictating search condition.</li>
+ * <li>#-4 Positive Case : Search work is conducted by using Named Native
+ * SQL(Right Outer Join) targeting two tables which has Relation.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -41,7 +41,8 @@ public class HibernateNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 하나의 테이블을 대상으로 Native SQL을 이용한 조회 작업을 수행한다.
+	 * [Flow #-1] Positive Case : Search work is conducted by using Named Native
+	 * SQL(Right Outer Join) targeting two tables which has Relation.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -92,8 +93,8 @@ public class HibernateNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Native
-	 * SQL(Inner Join)을 이용한 조회 작업을 수행한다.
+	 * [Flow #-2] Positive Case : Search work is conducted by using Named Native
+	 * SQL(Inner Join) targeting two tables which have Relation.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -116,8 +117,6 @@ public class HibernateNativeSQLTest extends
 		query.addEntity(Movie.class);
 		query.setParameter(0, "Romantic");
 		List movieList = query.list();
-		
-		
 
 		// 3. assert result - movie
 		Assert.assertEquals("fail to match the size of movie list.", 2, movieList
@@ -143,8 +142,8 @@ public class HibernateNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : 두개의 테이블을 대상으로 검색 조건을 별도 명시한 Native SQL을 이용하여
-	 * 조회 작업을 수행한다.
+	 * [Flow #-3] Positive Case : Search work is conducted by using Named Native
+	 * SQL targeting two tables separately dictating search condition.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -195,8 +194,8 @@ public class HibernateNativeSQLTest extends
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Native
-	 * SQL(Right Outer Join)을 이용한 조회 작업을 수행한다.
+	 * [Flow #-4] Positive Case : Search work is conducted by using Named Native
+	 * SQL(Right Outer Join) targeting two tables which has Relation.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

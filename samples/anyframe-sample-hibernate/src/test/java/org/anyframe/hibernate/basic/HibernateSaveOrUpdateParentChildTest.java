@@ -16,23 +16,29 @@ import org.junit.runners.JUnit4;
 /**
  * TestCase Name : HibernateSaveOrUpdateParentChildTest<br>
  * <br>
- * [Description] : 두 객체간의 관계가 1:m 인 관계에 있을 때, 1 측의 신규 객체에 대해 save(), update(),
- * saveOrUpdate() 메소드 호출을 통해 등록/수정 여부를 체크한다. 또한 기 등록된 1 측에 속한 객체를 통해 신규 m 측의 객체에
- * 대해서도 동일하게 save(), update(), saveOrUpdate() 메소드 호출을 통해 차이점을 살펴본다.<br>
+ * [Description] : When the relation between two objects are 1:m, it is checked
+ * whether registration/modification are conducted by calling for saveOrUpdate()
+ * method. Also, via 1-side new object, save(), update(),saveOrUpdate()methods
+ * are called for to check registration/modification. Also, via registered
+ * object belonging to registered 1 side, save(), update(), saveOrUpdate()
+ * methods on new m-side object are called for to compare differences. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은 Country
- * 정보에 대해 update() 메소드를 호출하여 본다.</li>
- * <li>#-2 Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은 Country
- * 정보에 대해 save() 메소드를 호출하여 본다.</li>
- * <li>#-3 Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은 Country
- * 정보에 대해 saveOrUpdate() 메소드를 호출하하여 본다.</li>
- * <li>#-4 Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은 Country
- * 정보를 추가한 후, Movie 정보에 대해 update() 메소드를 호출하여 본다.</li>
- * <li>#-5 Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은 Country
- * 정보를 추가한 후, Movie 정보에 대해 save() 메소드를 호출하여 본다.</li>
- * <li>#-6 Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은 Country
- * 정보를 추가한 후, Movie 정보에 대해 saveOrUpdate() 메소드를 호출하여 본다.</li>
+ * <li>#-1 Positive Case : When there is Country:Movie=1:m relation, update()
+ * method on Country information not reflected in DB is called for.</li>
+ * <li>#-2 Positive Case : When there is Country:Movie=1:m relation, save()
+ * method ON Country information not reflected in DB is called for.</li>
+ * <li>#-3 Positive Case : When there is Country:Movie=1:m relation,
+ * saveOrUpdate() method on Country information not reflected in DB is called
+ * for.</li>
+ * <li>#-4 Positive Case : When there is Country:Movie=1:m relation, update()
+ * method on Country information not reflected in DB is called for.</li>
+ * <li>#-5 Positive Case : When there is Country:Movie=1:m relation, after
+ * adding Country information not reflected in DB and save() method on Movie
+ * information is called for.</li>
+ * <li>#-6 Positive Case : When there is Country:Movie=1:m relation, after
+ * adding Country information not reflected in DB and saveOrUpdate() method on
+ * Movie information is called for.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -45,9 +51,10 @@ public class HibernateSaveOrUpdateParentChildTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은
-	 * Country 정보에 대해 update() 메소드를 호출하였을 경우, 해당 객체가 DB에 존재하지 않으므로 Transaction
-	 * commit 수행시 Exception이 throw된다.
+	 * [Flow #-1] Positive Case : When there is Country:Movie=1:m relation,
+	 * update() method on Country information not reflected in DB is called for,
+	 * DB does not include relevant object. Therefore, when Transaction commit
+	 * is executed, Exception is thrown.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -72,9 +79,11 @@ public class HibernateSaveOrUpdateParentChildTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은
-	 * Country 정보에 대해 save() 메소드를 호출하였을 경우, 해당 객체가 DB에 존재하지 않으므로 Transaction
-	 * commit 수행시 해당 객체에 대해 INSERT문이 실행된다.
+	 * [Flow #-2] Positive Case : When there is Country:Movie=1:m relation,
+	 * after adding Country information not reflected in DB and save() method on
+	 * Movie information is called for, DB does not include relevant object.
+	 * Therefore, in executing Transaction commit, INSERT statement on relevant
+	 * object is executed.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -97,10 +106,12 @@ public class HibernateSaveOrUpdateParentChildTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은
-	 * Country 정보에 대해 saveOrUpdate() 메소드를 호출하였을 경우, 해당 객체가 DB에 존재하지 않으므로
-	 * Transaction commit 수행시 해당 객체에 대해 INSERT문이 실행된다. 해당 객체가 DB에 존재하는 경우에는 객체의
-	 * 정보가 수정된다.
+	 * [Flow #-3] Positive Case : When there is Country:Movie=1:m relation,
+	 * after adding Country information not reflected in DB and saveOrUpdate()
+	 * method on Movie information is called for, DB does not include relevant
+	 * object. Therefore, in executing Transaction commit, INSERT statement on
+	 * relevant object is executed. In the case relevant object is in DB, object
+	 * information is modified.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -123,10 +134,12 @@ public class HibernateSaveOrUpdateParentChildTest extends
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은
-	 * Country 정보를 추가한 후, Movie 정보에 대해 update() 메소드를 호출하였을 경우, 해당 객체가 DB에 존재하지
-	 * 않으므로 Transaction commit 수행시 해당 객체에 대해 INSERT문이 실행된다. 해당 객체가 DB에 존재하는 경우에는
-	 * 객체의 정보가 수정된다.
+	 * [Flow #-4] Positive Case : When there is Country:Movie=1:m relation,
+	 * after adding Country information not reflected in DB and update() method
+	 * on Movie information is called for, DB does not include relevant object.
+	 * Therefore, in executing Transaction commit, INSERT statement on relevant
+	 * object is executed. In the case relevant object is in DB, object
+	 * information is modified.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -157,10 +170,12 @@ public class HibernateSaveOrUpdateParentChildTest extends
 	}
 
 	/**
-	 * [Flow #-5] Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은
-	 * Country 정보를 추가한 후, Movie 정보에 대해 save() 메소드를 호출하였을 경우, 해당 객체가 DB에 존재하지
-	 * 않으므로 Transaction commit 수행시 해당 객체에 대해 INSERT문이 실행된다. 해당 객체가 DB에 존재하는 경우에는
-	 * 객체의 정보가 수정된다.
+	 * [Flow #-5] Positive Case : When there is Country:Movie=1:m relation,
+	 * after adding Country information not reflected in DB and save() method on
+	 * Movie information is called for, DB does not include relevant object.
+	 * Therefore, in executing Transaction commit, INSERT statement on relevant
+	 * object is executed. In the case relevant object is in DB, object
+	 * information is modified.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -191,10 +206,12 @@ public class HibernateSaveOrUpdateParentChildTest extends
 	}
 
 	/**
-	 * [Flow #-6] Positive Case : Country:Movie = 1:m 관계에 있을 때, DB에 추가되어 있지 않은
-	 * Country 정보를 추가한 후, Movie 정보에 대해 saveOrUpdate() 메소드를 호출하였을 경우, 해당 객체가 DB에
-	 * 존재하지 않으므로 Transaction commit 수행시 해당 객체에 대해 INSERT문이 실행된다. 해당 객체가 DB에 존재하는
-	 * 경우에는 객체의 정보가 수정된다.
+	 * [Flow #-6] Positive Case : When there is Country:Movie=1:m relation,
+	 * after adding Country information not reflected in DB and saveOrUpdate()
+	 * method on Movie information is called for, DB does not include relevant
+	 * object. Therefore, in executing Transaction commit, INSERT statement on
+	 * relevant object is executed. In the case relevant object is in DB, object
+	 * information is modified.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

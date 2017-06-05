@@ -19,13 +19,15 @@ import org.junit.runners.JUnit4;
 /**
  * TestCase Name : HibernatePessimisticLockingTest <br>
  * <br>
- * [Description] : Pessimistic Locking 테스트를 수행해본다.<br>
+ * [Description] : Pessimistic Locking test is carried out. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : LockMode.UPGRADE를 이용하여 Pessimistic Locking을 수행한다.</li>
- * <li>#-2 Positive Case : LockMode.UPGRADE_NOWAIT를 이용하여 Pessimistic Locking을
- * 수행한다.</li>
- * <li>#-3 Positive Case : LockMode.NONE을 이용하여 Pessimistic Locking을 수행한다.</li>
+ * <li>#-1 Positive Case : Pessimistic Locking is executed by using
+ * LockMode.UPGRADE.</li>
+ * <li>#-2 Positive Case : Pessimistic Locking is executed by using
+ * LockMode.UPGRADE_NOWAIT.</li>
+ * <li>#-3 Positive Case : Pessimistic Locking is executed by using
+ * LockMode.NONE.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -38,12 +40,14 @@ public class HibernatePessimisticLockingTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : LockMode.UPGRADE를 이용하여 Pessimistic Locking을
-	 * 수행한다. 두번째 Thread에 sleeptime을 줌으로써, 첫번째 Thread를 명시적으로 먼저 start할 수 있도록 하여
-	 * 첫번째 Thread를 통해 먼저 select ... for update 문이 수행되면서 해당 Row에 Lock이 생긴다. 그리고
-	 * 첫번째 Thread에서는 session.flush()를 수행하기 전에 주어진 시간만큼 sleep()하게 된다. <br/> 따라서
-	 * 뒤이은 두번째 Thread에서는 첫번째 Thread의 update 작업이 완료될 때까지 blocking되어 있다가 첫번째
-	 * Thread에서 변경한 값을 기반으로 수정 작업을 시도하게 되는 것을 알 수 있다.
+	 * [Flow #-1] Positive Case : Pessimistic Locking is executed by using
+	 * LockMode.UPGRADE. By giving sleeptime to the second Thread, the first
+	 * Thread can start first. Therefore, select…for update statement is
+	 * executed first via the first Thread, creating Lock on relevant Row. And
+	 * the first Thread goes sleep() for given time before executing
+	 * session.flush(). So, following the second Thread is blocked until the
+	 * first Thread update is completed and later finds correction work is tried
+	 * based on the value changed at the first Thread.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -90,13 +94,14 @@ public class HibernatePessimisticLockingTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : LockMode.UPGRADE_NOWAIT를 이용하여 Pessimistic
-	 * Locking을 수행한다. 두번째 Thread에 sleeptime을 줌으로써, 첫번째 Thread를 명시적으로 먼저 start할 수
-	 * 있도록 하여 첫번째 Thread를 통해 먼저 select ... for update nowait 문이 수행되면서 해당 Row에
-	 * Lock이 생긴다. 그리고 첫번째 Thread에서는 session.flush()를 수행하기 전에 주어진 시간만큼 sleep()하게
-	 * 된다. <br/> 따라서 뒤이은 두번째 Thread에서 select ... for update nowait을 시도하면 기다리지 않고
-	 * 바로 LockAcquisitionException이 throw되면서 두번째 Thread를 통한 수정 작업은 이루어지지 않음을 알 수
-	 * 있다.
+	 * [Flow #-2] Positive Case : Pessimistic Locking is executed by using
+	 * LockMode.UPGRADE NOWAIT. By giving sleeptime to the second Thread, the
+	 * first Thread can start first. Therefore, select…for update nowait
+	 * statement is executed first via the first Thread, creating Lock on
+	 * relevant Row. And the first Thread goes sleep() for given time before
+	 * executing session.flush(). So, if the second Thread tries slect…for
+	 * update nowait, LockAcquisitionException is thrown right away and
+	 * correction work via the second Thread is not carried out.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -141,12 +146,14 @@ public class HibernatePessimisticLockingTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : LockMode.NONE를 이용하여 Pessimistic Locking을 수행한다.
-	 * 두번째 Thread에 sleeptime을 줌으로써, 첫번째 Thread를 명시적으로 먼저 start할 수 있도록 하여 첫번째
-	 * Thread를 통해 먼저 select ... 문이 수행되나 Lock이 걸리지는 않는다. 그리고 첫번째 Thread에서는
-	 * session.flush()를 수행하기 전에 주어진 시간만큼 sleep()하게 된다. <br/> 따라서 뒤이은 두번째
-	 * Thread에서 select를 시도하면 기다리지 않고 바로 두번째 Thread를 통한 수정 작업이 이루어진다. 첫번째
-	 * Thread에서는 주어진 시간만큼 sleep()한 후, 두번째 Thread의 변경 내용을 무시한 채 수정 작업을 처리한다.
+	 * [Flow #-3] Positive Case : Pessimistic Locking is executed by using
+	 * LockMode.NONE. By giving sleeptime to the second Thread, the first Thread
+	 * can start first. Therefore, select…statement is executed first via the
+	 * first Thread, but without Locking. And the first Thread goes sleep() for
+	 * given time before executing session.flush(). Therefore, following the
+	 * second Tread tries select, correction work is carried out right away.
+	 * after Thread sleep() for given time, correction work is carried out
+	 * without considering the second Tread change.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

@@ -15,21 +15,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateNamedHQLTest<br>
  * <br>
- * [Description] : Hibernate Query Language를 별도 Hibernate Mapping XML 파일 내에 정의하고
- * 정의된 HQL문의 name을 입력하여 실행시켜 본다.<br>
+ * [Description] : Hibernate Query Language is defined within separate Hibernate
+ * Mapping XML file and executed by entering name of defined HQL statement. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : 하나의 테이블을 대상으로 Named HQL을 이용한 조회 작업을 수행한다.</li>
- * <li>#-2 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Named HQL(Inner
- * Join)을 이용한 조회 작업을 수행한다.</li>
- * <li>#-3 Positive Case : 두개의 테이블을 대상으로 조회 조건을 별도 명시한 Named HQL(Inner Join)을
- * 이용하여 조회 작업을 수행한다.</li>
- * <li>#-4 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Right Outer
- * Join)을 이용한 조회 작업을 수행한다.</li>
+ * <li>#-1 Positive Case : Search work targeting one table is carried out with
+ * Named HQL.</li>
+ * <li>#-2 Positive Case : Search work targeting two tables which have Relation
+ * is carried out with Named HQL(Inner Join).</li>
+ * <li>#-3 Positive Case : Search work targeting two tables is carried out with
+ * Named HQL(Inner Join)</li>
+ * <li>#-4 Positive Case : Search work targeting two tables which have Relation
+ * is carried out with HQL(Right Outer Join).</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -42,7 +42,8 @@ public class HibernateNamedHQLTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 하나의 테이블을 대상으로 Named HQL을 이용한 조회 작업을 수행한다.
+	 * [Flow #-1] Positive Case : Search work targeting one table is carried out
+	 * with Named HQL.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -86,8 +87,8 @@ public class HibernateNamedHQLTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Named
-	 * HQL(Inner Join)을 이용한 조회 작업을 수행한다.
+	 * [Flow #-2] Positive Case : Search work targeting two tables which have
+	 * Relation is carried out with Named HQL(Inner Join).
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -125,8 +126,8 @@ public class HibernateNamedHQLTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : 두개의 테이블을 대상으로 조회 조건을 별도 명시한 Named HQL(Inner
-	 * Join)을 이용하여 조회 작업을 수행한다.
+	 * [Flow #-3] Positive Case : Search work targeting two tables is carried
+	 * out with Named HQL(Inner Join) separately dictating search condition.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -165,8 +166,8 @@ public class HibernateNamedHQLTest extends
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Right
-	 * Outer Join)을 이용한 조회 작업을 수행한다.
+	 * [Flow #-4] Positive Case : Search work targeting two tables which have
+	 * Relation is carried out with HQL(Right Outer Join).
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

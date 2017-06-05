@@ -9,15 +9,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateFirstLevelCacheTest<br>
  * <br>
- * [Description] : 하나의 트랜잭션 내에서는 Hibernate에서 기본 제공하는 1LC를 통해 한 번 조회된 객체에 대해서는 다시
- * DB에 접근하지 않고도 조회될 수 있음을 확인할 수 있다.<br>
+ * [Description] : For once searched object via 1LC provided at Hibernate as
+ * default within one transaction, it can be searched without accessing DB. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : MOVIE 테이블을 대상으로 한건의 Movie 정보를 조회한다.</li>
+ * <li>#-1 Positive Case : One piece of the Movie information is searched for
+ * MOVIE table.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -29,9 +29,10 @@ public class HibernateFirstLevelCacheTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : MOVIE 테이블을 대상으로 한건의 Movie 정보를 조회한다. 동일한
-	 * Session 내에서 한 번 조회된 엔티티 정보는 1LC(1 Level Cache)에 저장되므로 다음 조회시 DB에 접근하지
-	 * 않고도, Cache를 통해 조회할 수 있다.
+	 * [Flow #-1] Positive Case : Single item of Movie information for MOVIE
+	 * table is searched. Entitiy information once searched within the same
+	 * Session is stored at 1LC(1 Level Cache). Therefore, for next search,
+	 * there is no need to access DB and information can be searched via Cache.
 	 * 
 	 * @throws Exception
 	 */

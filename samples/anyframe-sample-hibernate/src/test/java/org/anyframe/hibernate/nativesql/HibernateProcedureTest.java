@@ -17,12 +17,14 @@ import org.junit.runners.JUnit4;
 /**
  * TestCase Name : HibernateProcedureTest<br>
  * <br>
- * [Description] : Hibernate를 이용하여 DB에 기 등록된 Procedure 또는 Function 실행 방법에 대해
- * 살펴본다.<br>
+ * [Description] : By using Hibernate, Procedure registered in DB or how to
+ * execute Function are looked into. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : 매핑 XML 파일 내에 정의한 Procedure를 호출하여 실행시킨 후, 결과값을 확인한다.</li>
- * <li>#-2 Positive Case : 앞서 생성한 Function을 이용하여 HQL을 실행시킨 후, 결과값을 확인한다.</li>
+ * <li>#-1 Positive Case : After calling for and executing Procedure defined
+ * within Mapping XML file, its return value is checked.</li>
+ * <li>#-2 Positive Case : By using Function created before, HQL is executed and
+ * then its return value is checked.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -35,8 +37,8 @@ public class HibernateProcedureTest extends
 	}
 
 	/**
-	 * 테스트를 위해 초기 데이터 입력 및 Procedure(FIND_CATEGORY_LIST),
-	 * Function(FIND_MOVIE_LIST)을 생성한다.
+	 * Initial data is entered and Procedure(FIND_CATEGORY_LIST) and
+	 * Function(FIND_MOVIE_LIST)are created for test.
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -100,8 +102,8 @@ public class HibernateProcedureTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 매핑 XML 파일 내에 정의한 Procedure를 호출하여 실행시킨 후, 결과값을
-	 * 확인한다.
+	 * [Flow #-1] Positive Case : After calling for and executing Procedure
+	 * defined within Mapping XML file, its return value is checked.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -137,7 +139,8 @@ public class HibernateProcedureTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : 앞서 생성한 Function을 이용하여 HQL을 실행시킨 후, 결과값을 확인한다.
+	 * [Flow #-2] Positive Case : By using Function created before, HQL is
+	 * executed and then its return value is checked.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

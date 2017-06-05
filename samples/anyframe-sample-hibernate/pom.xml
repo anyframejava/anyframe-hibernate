@@ -5,7 +5,7 @@
 	<groupId>org.anyframe.sample</groupId>
 	<artifactId>anyframe-sample-hibernate</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>anyframe-sample-hibernate</name> 
 	<dependencies>
 		<dependency>
@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>org.anyframe</groupId>
 			<artifactId>anyframe-core</artifactId>
-			<version>1.0.1</version> 
+			<version>1.0.3</version> 
 			<scope>test</scope>
 		</dependency>		
         <dependency>

@@ -8,19 +8,24 @@ import org.anyframe.util.DateUtil;
 /**
  * TestCase Name : HibernateBidirectionInverseCascadeTest<br>
  * <br>
- * [Description] : 1:m 관계에 놓인 두 객체가 양방향 관계일 경우 inverse, cascade 속성 정의에 따라 실행되는
- * 쿼리문이 달라짐을 확인할 수 있다. 또한 이 테스트케이스 결과를 통해 양방향 관계에서 inverse, cascade를 어떻게 활용해야 할
- * 지 알 수 있다.<br>
+ * [Description] :In the case where two tables which has 1:m relation have
+ * two-way relation, query statement changes according to inverse and cascade
+ * properties definition. Also, the testcase result shows how to use inverse and
+ * cascade in two-way relation. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
- * Hibernate Mapping XML 파일 내에 inverse="false", cascade 속성 정의하지 않음</li>
- * <li>#-2 Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
- * Hibernate Mapping XML 파일 내에 inverse="true", cascade 속성 정의하지 않음.</li>
- * <li>#-3 Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
- * Hibernate Mapping XML 파일 내에 inverse="false", cascade="save-update"로 정의함.</li>
- * <li>#-4 Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
- * Hibernate Mapping XML 파일 내에 inverse="true", cascade="save-update"로 정의함.</li>
+ * <li>#-1 Positive Case : Relation is Country:Movie =1:m and two-way.
+ * Inverse="false", cascade property is not defined within Hibernate Mapping XML
+ * file.</li>
+ * <li>#-2 Positive Case : Relation is Country:Movie =1:m and two-way.
+ * Inverse="true", cascade property is not defined within Hibernate Mapping XML
+ * file.</li>
+ * <li>#-3 Positive Case : Relation is Country:Movie =1:m and two-way.
+ * Inverse="false", cascade="save-update" is defined within Hibernate Mapping
+ * XML file.</li>
+ * <li>#-4 Positive Case : Relation is Country:Movie =1:m and two-way.
+ * Inverse="true", cascade="save-update" is defined within Hibernate Mapping XML
+ * file.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -28,11 +33,13 @@ import org.anyframe.util.DateUtil;
 public class HibernateBidirectionInverseCascadeTest extends AbstractTest {
 
 	/**
-	 * [Flow #-1] Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
-	 * Hibernate Mapping XML 파일 내에 inverse="false", cascade 속성 정의하지 않음. <br/>
-	 * 기본적으로 Country, Movie 각각을 추가하기 위해 2번의 INSERT 문이 수행된다. 또한,
-	 * inverse="false'이므로 country.getMovies().add(movie); 코드 수행으로 인해 MOVIE 테이블의
-	 * COUNTRY_CODE 정보가 null -> 'CTR-0001'로 셋팅하기 위한 UPDATE 쿼리가 추가적으로 실행된다.
+	 * [Flow #-1] Positive Case : Relation is Country: Movie =1:m and two-way.
+	 * Inverse="false", cascade property is not defined within Hibernate Mapping
+	 * XML file. <br/>
+	 * Basically, in order to add each Country and Movie, INSERT statements are
+	 * executed twice. Also, given that inverse="false', UPDATE query is
+	 * additionally executed for setting MOVIE table COUNTRY_CODE as null->
+	 * ‘CTR-0001’ thanks to country.getMovies().add(movie); code execution.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -55,11 +62,13 @@ public class HibernateBidirectionInverseCascadeTest extends AbstractTest {
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
-	 * Hibernate Mapping XML 파일 내에 inverse="true", cascade 속성 정의하지 않음. <br/>
-	 * 기본적으로 Country, Movie 각각을 추가하기 위해 2번의 INSERT 문이 수행된다. Movie INSERT 시점에는
-	 * movie.setCountry(country); 코드 수행으로 인해 COUNTRY_CODE 정보가 null이 아닌
-	 * 'CTR-0001'로 셋팅되어 있다.
+	 * [Flow #-2] Positive Case : Relation is Country: Movie =1:m and two-way.
+	 * Inverse="true", cascade property is not defined within Hibernate Mapping
+	 * XML file. <br/>
+	 * Basically, in order to add each Country and Movie, INSERT statements are
+	 * executed twice. When Movie INSERT is executed, COUNTRY_CODE information
+	 * is set not as null but as ‘CTR-0001’ because of
+	 * movie.setCountry(country); code execution.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -82,12 +91,15 @@ public class HibernateBidirectionInverseCascadeTest extends AbstractTest {
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
-	 * Hibernate Mapping XML 파일 내에 inverse="false", cascade="save-update"로 정의함.
-	 * <br/> cascade 속성에 의해 별도의 session.save(movie) 로직을 정의하지 않아도 기본적으로 Country와
-	 * 함께 Movie 정보를 등록하기 위해 2번의 INSERT문이 실행된다 또한, inverse="false"이므로
-	 * country.getMovies().add(movie); 코드 수행으로 인해 MOVIE 테이블의 COUNTRY_CODE 정보가
-	 * null -> 'CTR-0001'로 셋팅하기 위해 UPDATE 쿼리가 추가적으로 실행된다.
+	 * [Flow #-3] Positive Case : Relation is Country:Movie =1:m and two-way.
+	 * Inverse="false", cascade cascade="save-update" is defined within
+	 * Hibernate Mapping XML file. <br/>
+	 * Thanks to cascade property, INSERT statements are twice executed to
+	 * register Country and Movie information together as default without
+	 * defining session.save(movie) logic. Also, given that inverse="false",
+	 * UPDATE query is additionally executed for MOVIE table COUNTRY_CODE
+	 * information is set as null -> 'CTR-0001' because of
+	 * country.getMovies().add(movie); code execution.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -109,11 +121,14 @@ public class HibernateBidirectionInverseCascadeTest extends AbstractTest {
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Country : Movie = 1:m 이고 양방향 관계. Country 관련
-	 * Hibernate Mapping XML 파일 내에 inverse="true", cascade="save-update"로 정의함.
-	 * <br/> cascade 속성에 의해 별도의 session.save(movie) 로직을 정의하지 않아도 Country와 함께
-	 * Movie 정보를 등록하기 위해 2번의 INSERT문이 실행된다. 이 경우 movie.setCountry(country); 코드
-	 * 수행으로 인해 Movie INSERT 시점에 COUNTRY_CODE 정보가 'CTR-0001'로 셋팅되어 있다.
+	 * [Flow #-4] Positive Case : Relation is Country:Movie =1:m and two-way.
+	 * Inverse="true", cascade="save-update" is defined within Hibernate Mapping
+	 * XML file. Thanks to cascade property, INSERT statements are twice
+	 * executed to register Country and Movie information together as default
+	 * without defining session.save(movie) logic. In this case, when Movie
+	 * INSERT is executed, COUNTRY_CODE information is set as 'CTR-0001' because
+	 * of movie.setCountry(country); code execution.
+	 * 
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

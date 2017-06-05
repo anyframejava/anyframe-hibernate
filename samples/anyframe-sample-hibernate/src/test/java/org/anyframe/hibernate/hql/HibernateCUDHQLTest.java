@@ -8,16 +8,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateCUDHQLTest<br>
  * <br>
- * [Description] : HQL(Hibernate Query Language)을 통해 CUD 작업을 수행하여 본다.<br>
+ * [Description] : CUD work is conducted by using HQL(Hibernate Query Language).<br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : HQL을 이용하여 신규 Country 정보를 등록한다.</li>
- * <li>#-2 Positive Case : HQL을 이용하여 Country 정보를 수정한다.</li>
- * <li>#-3 Positive Case : HQL을 이용하여 등록된 Country 정보를 삭제한다.</li>
+ * <li>#-1 Positive Case : New country information is registered by using HQL.</li>
+ * <li>#-2 Positive Case : Country information is modified by using HQL.</li>
+ * <li>#-3 Positive Case : Registered country information is deleted by using
+ * HQL.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -29,9 +29,9 @@ public class HibernateCUDHQLTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : HQL을 이용하여 신규 Country 정보를 등록한다. Hibernate에서는
-	 * INSERT INTO ... VALUES 형태의 INSERT문은 지원되지 않으며, INSERT INTO ... SELECT 형태의
-	 * INSERT문만 지원됨에 유의해야 한다.
+	 * [Flow #-1] Positive Case : New country information is registered by using
+	 * HQL. Hibernate does not support INSERT statement in the format of INSERT
+	 * INTO…VALUES and only supports INSERT in the format of INSERT INTO…SELECT.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -65,14 +65,14 @@ public class HibernateCUDHQLTest extends AbstractConfigurationalTest {
 
 		// 3. assert
 		newSession();
-		Country result = (Country) session
+				Country result = (Country) session
 				.get(Country.class, "CTR-0001UPD");
 		Assert.assertNotNull("fail to insert country.", result);
 		closeSession();
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : HQL을 이용하여 Country 정보를 수정한다.
+	 * [Flow #-2] Positive Case : Country information is modified by using HQL.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -109,7 +109,8 @@ public class HibernateCUDHQLTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : HQL을 이용하여 등록된 Country 정보를 삭제한다.
+	 * [Flow #-3] Positive Case : Registered country information is removed by
+	 * using HQL
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -141,7 +142,8 @@ public class HibernateCUDHQLTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * Hibernate API를 호출하여 한건의 Country를 등록한 후, 등록 여부를 검증한다.
+	 * By calling for Hibernate API, single item of country information is
+	 * registered and registration is verified.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -162,7 +164,8 @@ public class HibernateCUDHQLTest extends AbstractConfigurationalTest {
 	}
 
 	/**
-	 * countryCode를 이용하여 DB로부터 검색한 Country 정보와 입력된 Country 정보가 일치하는지 검증한다.
+	 * By using countryCode, the match between country information retrieved
+	 * from DB and entered country information is verified.
 	 * 
 	 * @param countryCode
 	 *            Country Code

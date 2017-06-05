@@ -7,19 +7,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateBasicCRUDTest <br>
  * <br>
- * [Description] : Hibernate API - save(), update(), delete(), get() 메소드를 호출함으로써
- * 하나의 엔티티 정보를 등록/수정/삭제/조회해 본다.<br>
+ * [Description] : Hibernate API - By calling for save(), update(), delete() and
+ * get() methods, a piece of entity information can be registered, modified,
+ * deleted and searched. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : Hibernate API를 호출하여 신규 등록된 Country 정보를 수정한 후, 수정 여부를
- * 검증한다.</li>
- * <li>#-2 Positive Case : Hibernate API를 호출하여 신규 등록된 Country 정보를 삭제한 후, 삭제 여부를
- * 검증한다.</li>
- * <li>#-3 Positive Case : Hibernate API를 호출하여 한건의 Country를 등록한 후, 등록 여부를 검증한다.</li>
+ * <li>#-1 Positive Case : By calling for Hibernate API, newly registered
+ * Country information is modified and verified for modification.</li>
+ * <li>#-2 Positive Case : By calling for Hiberate API, newly registered Country
+ * information is deleted and verified for deletion.</li>
+ * <li>#-3 Positive Case : By calling for Hibernate API, one country name is
+ * registered and verified for registration.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -33,8 +34,8 @@ public class HibernateBasicCRUDTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : Hibernate API를 호출하여 신규 등록된 Country 정보를 수정한 후,
-	 * 수정 여부를 검증한다.
+	 * [Flow #-1] Positive Case : By calling for Hibernate API, newly registered
+	 * country information is modified and verified for modification.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -53,8 +54,8 @@ public class HibernateBasicCRUDTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Hibernate API를 호출하여 신규 등록된 Country 정보를 삭제한 후,
-	 * 삭제 여부를 검증한다.
+	 * [Flow #-2] Positive Case : By calling for Hibernate API, newly registered
+	 * Country information is deleted and verified for deletion.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -74,8 +75,8 @@ public class HibernateBasicCRUDTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Hibernate API를 호출하여 한건의 Country를 등록한 후, 등록 여부를
-	 * 검증한다.
+	 * [Flow #-3] Positive Case : By calling for Hibernate API, one country name
+	 * is registered and verified for registration.
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -96,7 +97,8 @@ public class HibernateBasicCRUDTest extends
 	}
 
 	/**
-	 * countryCode를 이용하여 DB로부터 검색한 Country 정보와 입력된 Country 정보가 일치하는지 검증한다.
+	 * By using countrycode, the match between country information searched from
+	 * DB and entered country information is verified.
 	 * 
 	 * @param countryCode
 	 *            Country Code

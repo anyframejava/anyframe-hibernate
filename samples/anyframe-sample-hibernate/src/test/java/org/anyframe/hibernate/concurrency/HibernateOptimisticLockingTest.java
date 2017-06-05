@@ -16,18 +16,23 @@ import org.junit.runners.JUnit4;
 /**
  * TestCase Name : HibernateOptimisticLockingTest <br>
  * <br>
- * [Description] : Optimistic Locking 테스트를 수행해본다.<br>
+ * [Description] : Optimistic Locking test is carried out. <br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : VERSION 필드를 가진 Country. 첫번째 트랜잭션 내에서 테스트를 위한 신규 데이터를
- * 입력한 후, 두번째 트랜잭션 내에서 동일한 식별자를 이용하여 Country 정보를 두번 조회한다. 두번째 트랜잭션이 종료된 후에 앞서
- * 조회한 Country의 countryName을 다른 것으로 셋팅해둔다. 세번째 트랜잭션 내에서는 두번째 조회한 Country 정보에 다른
- * countryName을 셋팅하여 DB에 반영한다. <br/> 네번째 트랜잭션에서 첫번째 조회한 Country 정보에 대해 update()
- * 메소드를 호출해본다.</li>
- * <li>#-2 Negative Case : VERSION 필드를 가지지 않은 Movie. 첫번째 트랜잭션 내에서 테스트를 위한 신규
- * 데이터를 입력한 후, 두번째 트랜잭션 내에서 동일한 식별자를 이용하여 Movie 정보를 두번 조회한다. 두번째 트랜잭션이 종료된 후에 앞서
- * 조회한 Movie의 title을 다른 것으로 셋팅해둔다. 세번째 트랜잭션 내에서는 두번째 조회한 Movie 정보에 다른 title을
- * 셋팅하여 DB에 반영한다. <br/> 네번째 트랜잭션에서 첫번째 조회한 Movie 정보에 대해 update() 메소드를 호출해본다.</li>
+ * <li>#-1 Positive Case : Country with VERSION field. After entering new data
+ * for test within the first transaction, Country information is twice searched
+ * with the same identifier within the second transaction. After the second
+ * transaction finishes, Country’s countryName before searched is set as
+ * different name. With the third transaction, secondly searched Country
+ * information is set as different countryName and reflected in DB.</li>
+ * <li>#-2 Negative Case : Movie without VERSION field. After entering new data
+ * for test within the first transaction, Movie information is twice searched
+ * with the same identifier within the second transaction. After the second
+ * transaction finishes, searched Movie title is set as different name. With the
+ * third transaction, secondly searched Movie information is set as different
+ * title and reflected in DB. <br/>
+ * At the fourth transaction, update() method on first searched Movie
+ * information is called for.</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -39,12 +44,16 @@ public class HibernateOptimisticLockingTest extends AbstractConfigurationalTest 
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 첫번째 트랜잭션 내에서 테스트를 위한 신규 데이터를 입력한 후, 두번째 트랜잭션
-	 * 내에서 동일한 식별자를 이용하여 Country 정보를 두번 조회한다. 두번째 트랜잭션이 종료된 후에 앞서 조회한 Country의
-	 * countryName을 다른 것으로 셋팅해둔다. 세번째 트랜잭션 내에서는 두번째 조회한 Country 정보에 다른
-	 * countryName을 셋팅하여 DB에 반영한다. <br/> 네번째 트랜잭션에서 첫번째 조회한 Country 정보에 대해
-	 * update() 메소드를 호출해본다. 이때, 세번째 트랜잭션에서의 수정으로 인해 COUNTRY_VERSION이 이미 변경되었기
-	 * 때문에 StaleObjectStateException 발생이 예상된다.
+	 * [Flow #-1] Positive Case : After entering new data for test within the
+	 * first transaction, Country information is twice searched with the same
+	 * identifier within the second transaction. After the second transaction
+	 * finishes, Country’s countryName before searched is set as different name.
+	 * With the third transaction, secondly searched Country information is set
+	 * as different countryName and reflected in DB. <br/>
+	 * At the fourth transaction, update() method on first searched Country
+	 * information is called for . In this case, the third transaction change
+	 * led to COUNTRY_VERSION change. Therefore, StaleObjectStateException is
+	 * expected to occur.
 	 * 
 	 * @throws Exception
 	 */
@@ -57,7 +66,7 @@ public class HibernateOptimisticLockingTest extends AbstractConfigurationalTest 
 
 		// 2. select a country
 		newSession();
-		Country fstCountry = (Country) session.get(Country.class,
+				Country fstCountry = (Country) session.get(Country.class,
 				"CTR-0001");
 		Assert.assertEquals("fail to check a version of country.", 0, fstCountry
 				.getVersion());
@@ -86,11 +95,15 @@ public class HibernateOptimisticLockingTest extends AbstractConfigurationalTest 
 	}
 
 	/**
-	 * [Flow #-2] Negative Case : 첫번째 트랜잭션 내에서 테스트를 위한 신규 데이터를 입력한 후, 두번째 트랜잭션
-	 * 내에서 동일한 식별자를 이용하여 Movie 정보를 두번 조회한다. 두번째 트랜잭션이 종료된 후에 앞서 조회한 Movie의
-	 * title을 다른 것으로 셋팅해둔다. 세번째 트랜잭션 내에서는 두번째 조회한 Movie 정보에 다른 title을 셋팅하여 DB에
-	 * 반영한다. <br/> 네번째 트랜잭션에서 첫번째 조회한 Movie 정보에 대해 update() 메소드를 호출해본다. 이때, 네번째
-	 * 트랜잭션에서의 수정이 정상적으로 처리되면서, 세번째 트랜잭션에서의 수정이 무효화되게 된다.
+	 * [Flow #-2] Negative Case : After entering new data for test within the
+	 * first transaction, Movie information is twice searched with the same
+	 * identifier within the second transaction. After the second transaction
+	 * finishes, searched Movie title is set as different name. With the third
+	 * transaction, secondly searched Movie information is set as different
+	 * title and reflected in DB. <br/>
+	 * Update()method on first searched Movie information is called for at the
+	 * fourth transaction. In this case, correction is completed at the fourth
+	 * transaction, nullifying correction at the third transaction.
 	 * 
 	 * @throws Exception
 	 */

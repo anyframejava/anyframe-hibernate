@@ -19,20 +19,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-
 /**
  * TestCase Name : HibernateBasicCriteriaTest<br>
  * <br>
- * [Description] : Hibernate Criteria를 이용하여 특정 객체 정보에 대해 조회해본다.<br>
+ * [Description] : Search work for one table is carried out with Hibernate
+ * Criteria.<br>
  * [Main Flow]
  * <ul>
- * <li>#-1 Positive Case : 하나의 테이블을 대상으로 Hibernate Criteria를 이용한 조회 작업을 수행한다.</li>
- * <li>#-2 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Hibernate
- * Criteria(Inner Join)를 이용한 조회 작업을 수행한다.</li>
- * <li>#-3 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Hibernate
- * Criteria(Inner Join)를 이용한 조회 작업을 수행한다.</li>
- * <li>#-4 Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Right Outer
- * Join)을 이용한 조회 작업을 수행한다.</li>
+ * <li>#-1 Positive Case : Search work for one table is carried out with
+ * Hibernate Criteria.</li>
+ * <li>#-2 Positive Case : Search work for two tables which have Relation is
+ * carried out with Hibernate Criteria(Inner Join).</li>
+ * <li>#-3 Positive Case : Search work for two tables which have Relation is
+ * carried out with Hibernate Criteria(Inner Join).</li>
+ * <li>#-4 Positive Case : Search work for two tables which have Relation is
+ * carried out with HQL(Right Outer Join).</li>
  * </ul>
  * 
  * @author SoYon Lim
@@ -45,8 +46,8 @@ public class HibernateBasicCriteriaTest extends
 	}
 
 	/**
-	 * [Flow #-1] Positive Case : 하나의 테이블을 대상으로 Hibernate Criteria를 이용한 조회 작업을
-	 * 수행한다.
+	 * [Flow #-1] Positive Case : Search work for one table is carried out with
+	 * Hibernate Criteria(Inner Join).
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -72,7 +73,7 @@ public class HibernateBasicCriteriaTest extends
 
 		// 4. assert result - movies
 		Set movies = country.getMovies();
-		Assert.assertEquals("fail to match the size of movie list.", 1, movies.size());
+Assert.assertEquals("fail to match the size of movie list.", 1, movies.size());
 		Movie movie = (Movie) movies.iterator().next();
 		Assert.assertTrue("fail to match the title of movie.", movie.getTitle()
 				.equals("Ring 2"));
@@ -89,8 +90,8 @@ public class HibernateBasicCriteriaTest extends
 	}
 
 	/**
-	 * [Flow #-2] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Hibernate
-	 * Criteria(Inner Join)를 이용한 조회 작업을 수행한다.
+	 * [Flow #-2] Positive Case : Search work for two tables which have Relation
+	 * is carried out with Hibernate Criteria(Inner Join).
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -129,8 +130,8 @@ public class HibernateBasicCriteriaTest extends
 	}
 
 	/**
-	 * [Flow #-3] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 Hibernate
-	 * Criteria(Inner Join)를 이용한 조회 작업을 수행한다.
+	 * [Flow #-3] Positive Case : Search work for two tables which have Relation
+	 * is carried out with Hibernate Criteria(Inner Join).
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate
@@ -170,8 +171,9 @@ public class HibernateBasicCriteriaTest extends
 	}
 
 	/**
-	 * [Flow #-4] Positive Case : Relation 관계에 놓여 있는 두개의 테이블을 대상으로 HQL(Right
-	 * Outer Join)을 이용한 조회 작업을 수행한다.
+	 * [Flow #-4] Positive Case : Search work for two tables which have Relation
+	 * is carried out with HQL(Right Outer Join).
+	 * 
 	 * 
 	 * @throws Exception
 	 *             throws exception which is from hibernate

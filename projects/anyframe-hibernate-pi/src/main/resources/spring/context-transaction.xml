@@ -16,9 +16,9 @@
         <property name="password" value="#{contextProperties.password}"/>
     </bean>							
 	
-	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-	  <property name="sessionFactory" ref="sessionFactory"/>
-	</bean>	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	  <property name="dataSource" ref="dataSource"/>
+	</bean>
 
 	<tx:annotation-driven transaction-manager="txManager" />
 	
@@ -32,6 +32,8 @@
 		<aop:pointcut id="mipServiceRequiredTx" expression="execution(* *..MiPService.*(..))"/>
 		<aop:pointcut id="dynamicHibernateRequiredTx" expression="execution(* *..*DynamicHibernateService.*(..))"/>
 		<aop:pointcut id="jobRequiredTx" expression="execution(* *..job..*Job.execute(..))"/>
+		<aop:pointcut id="flexRequiredTx" expression="execution(* *..FlexService.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" order="2" pointcut-ref="flexRequiredTx" />
 		<aop:advisor advice-ref="txAdvice" order="2" pointcut-ref="mipServiceRequiredTx" />
 		<aop:advisor advice-ref="txAdvice" order="2" pointcut-ref="dynamicHibernateRequiredTx" />
 		<aop:advisor advice-ref="txAdvice" order="2" pointcut-ref="jobRequiredTx" />
