@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 /**
- * Provides interface for wrapping hibernate libraries and acting as a facade
- * for complex hibernate api & JDBC api. And also provides exception class that
- * is thrown when there is any problem executing the query
+ * DTD resolver for anyframe-dynamic-hibernate-mapping
  * 
  * @since 1.0.0
  */
-package org.anyframe.hibernate;
+package org.anyframe.hibernate.impl.config;
 
