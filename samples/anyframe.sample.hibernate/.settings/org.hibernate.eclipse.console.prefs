@@ -1,0 +1,4 @@
+#Wed Sep 10 09:01:27 KST 2008
+default.configuration=anyframe.core.hibernate.oracle
+eclipse.preferences.version=1
+hibernate3.enabled=true
