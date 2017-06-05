@@ -41,7 +41,7 @@ public class MovieDao extends HibernateDaoSupport {
 	@Value("#{contextProperties['pageUnit'] ?: 10}")
 	int pageUnit;
 
-	@Inject
+	@Resource
 	DynamicHibernateService dynamicHibernateService;
 
 	@Inject

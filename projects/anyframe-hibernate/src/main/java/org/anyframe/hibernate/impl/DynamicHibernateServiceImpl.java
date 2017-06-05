@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -32,8 +33,12 @@ import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.hibernate.type.BasicTypeRegistry;
 import org.hibernate.util.XMLHelper;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.xml.BeansDtdResolver;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.MessageSource;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -114,7 +119,9 @@ import org.xml.sax.XMLReader;
  * @author SoYon Lim
  */
 public class DynamicHibernateServiceImpl implements DynamicHibernateService,
-		InitializingBean, ResourceLoaderAware {
+		InitializingBean, ResourceLoaderAware, ApplicationContextAware {
+
+	private MessageSource messageSource;
 
 	private final static String DELIMETER = "=";
 
@@ -140,6 +147,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		this.messageSource = (MessageSource) applicationContext
+				.getBean("messageSource");
 	}
 
 	/**
@@ -643,7 +656,9 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 			String key = (String) entry.getValue();
 			Object replaceValue = (String) context.get(key);
 			if (replaceValue == null) {
-				throw new BaseException("DynamicHibernate Service : Text replacement ["+  entry.getValue() +"] has not been set.");
+				throw new BaseException(messageSource,
+						"error.hibernate.runnablesql.replace",
+						new Object[] { entry.getValue() });
 			}
 			String value = replaceValue.toString();
 			tempStatement.insert(pos.intValue() + valueLengths, value);
@@ -720,8 +735,11 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 				localArray = (Object[]) values[i];
 				if (localArray.length != 2) {
 					if (DynamicHibernateService.LOGGER.isErrorEnabled())
-						DynamicHibernateService.LOGGER.error( "DynamicHibernate Service : Fail to generate value map from Object[]{var1=value1,var2=value2,...} or Object[]{Object[]{var1,value1}, Object[]{var2,value2}, ...}");
-					throw new BaseException("DynamicHibernate Service : Fail to generate value map from Object[]{var1=value1,var2=value2,...} or Object[]{Object[]{var1,value1}, Object[]{var2,value2}, ...}");
+						DynamicHibernateService.LOGGER.error(messageSource
+								.getMessage("error.hibernate.generatevaluemap",
+										new String[] {}, Locale.getDefault()));
+					throw new BaseException(messageSource,
+							"error.hibernate.generatevaluemap");
 				}
 				context.put(localArray[0].toString(), localArray[1]);
 			} else if (values[i] == null) {
