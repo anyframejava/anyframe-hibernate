@@ -21,34 +21,31 @@ import org.anyframe.hibernate.sample.model.bidirection.Category;
 import org.anyframe.hibernate.sample.model.bidirection.Country;
 import org.anyframe.hibernate.sample.model.bidirection.Movie;
 
-@SuppressWarnings("unchecked")
 public interface MovieDao {
-	List findMovieListAll() throws Exception;
+	List<Movie> findMovieListAll();
 
-	List findMovieList(int conditionType, String condition) throws Exception;
+	List<Movie> findMovieList(int conditionType, String condition);
 
-	List findMovieListWithSQL(int conditionType, String condition)
-			throws Exception;
+	List<Movie> findMovieListWithSQL(int conditionType, String condition);
 
-	List findMovieListWithoutReturn(int conditionType, String condition)
-			throws Exception;
+	List<Object[]> findMovieListWithoutReturn(int conditionType,
+			String condition);
 
-	List findMovieListWithScalar(int conditionType, String condition)
-			throws Exception;
+	List<Object[]> findMovieListWithScalar(int conditionType, String condition);
 
-	List findMovieListByCountry(String countryCode) throws Exception;
+	List<Object[]> findMovieListByCountry(String countryCode);
 
-	Movie findMovie(String movieId) throws Exception;
+	Movie findMovie(String movieId);
 
-	void createMovie(Movie movie) throws Exception;
+	void createMovie(Movie movie);
 
-	void updateMovie(Movie movie) throws Exception;
+	void updateMovie(Movie movie);
 
-	void removeMovie(Movie movie) throws Exception;
+	void removeMovie(Movie movie);
 
-	void createCountry(Country movie) throws Exception;
+	void createCountry(Country movie);
 
-	void createCategory(Category category) throws Exception;
+	void createCategory(Category category);
 
-	void createMovieList(List movieList) throws Exception;
+	void createMovieList(List<Movie> movieList);
 }

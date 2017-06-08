@@ -194,7 +194,7 @@ public class HibernateUnidirectionInverseCascadeTest extends AbstractTest {
 		Movie movie = new Movie();
 		movie.setMovieId("MV-00001");
 		movie.setDirector("Jaeyong Gwak");
-		movie.setReleaseDate(DateUtil.string2Date("2001-07-27", "yyyy-MM-dd"));
+		movie.setReleaseDate(DateUtil.stringToDate("2001-07-27", "yyyy-MM-dd"));
 		movie.setTitle("My Sassy Girl");
 
 		return movie;

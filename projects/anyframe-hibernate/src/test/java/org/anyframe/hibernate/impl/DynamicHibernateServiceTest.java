@@ -45,7 +45,7 @@ public class DynamicHibernateServiceTest {
 	private MovieService movieService;
 
 	@Before
-	public void onSetUp() throws Exception {
+	public void onSetUp() {
 		initializeData();
 	}
 
@@ -57,20 +57,20 @@ public class DynamicHibernateServiceTest {
 	 *             throws exception which is from MovieService
 	 */
 	@Test
-	@SuppressWarnings("unchecked")
-	public void testDynamicHibernateService() throws Exception {
+	public void testDynamicHibernateService() {
 		// Dynamic HQL
-		List movieList = movieService.findMovieList(0, "Hojun");
+		List<Movie> movieList = movieService.findMovieList(0, "Hojun");
 		assertEquals("Fail to execute dynamic HQL.", 1, movieList.size());
 
 		movieList = movieService.findMovieList(1, "My");
 		assertEquals("Fail to execute dynamic HQL.", 2, movieList.size());
 
 		// Dynamic SQL with return
-		List movieListWithSQL = movieService.findMovieListWithSQL(0, "Hojun");
+		List<Movie> movieListWithSQL = movieService.findMovieListWithSQL(0,
+				"Hojun");
 		assertEquals("Fail to execute dynamic SQL.", 1, movieListWithSQL.size());
 
-		Movie movie = (Movie) movieListWithSQL.get(0);
+		Movie movie = movieListWithSQL.get(0);
 		assertEquals("Fail to compare a movie title", "My Little Bride", movie
 				.getTitle());
 
@@ -78,12 +78,12 @@ public class DynamicHibernateServiceTest {
 		assertEquals("Fail to execute dynamic SQL.", 2, movieListWithSQL.size());
 
 		// Dynamic SQL with return-join
-		List movieListByCountry = movieService
+		List<Object[]> movieListByCountry = movieService
 				.findMovieListByCountry("COUNTRY-0001");
 
 		assertEquals("Fail to get movie list.", 2, movieListByCountry.size());
 		for (int i = 0; i < movieListByCountry.size(); i++) {
-			Object[] obj = (Object[]) movieListByCountry.get(i);
+			Object[] obj = movieListByCountry.get(i);
 			Movie movieObj = (Movie) obj[0];
 			Country countryObj = (Country) obj[1];
 
@@ -95,12 +95,12 @@ public class DynamicHibernateServiceTest {
 		}
 
 		// Dynamic SQL without return mapping
-		List movieListWithoutReturn = movieService.findMovieListWithoutReturn(
-				0, "Hojun");
+		List<Object[]> movieListWithoutReturn = movieService
+				.findMovieListWithoutReturn(0, "Hojun");
 		assertEquals("Fail to execute dynamic SQL.", 1, movieListWithoutReturn
 				.size());
 
-		Object[] movieObjs = (Object[]) movieListWithoutReturn.get(0);
+		Object[] movieObjs = movieListWithoutReturn.get(0);
 		assertEquals("Fail to compare a movie id", "MV-00002", movieObjs[0]);
 		assertEquals("Fail to compare a country id of movie", "COUNTRY-0001",
 				movieObjs[1]);
@@ -110,12 +110,12 @@ public class DynamicHibernateServiceTest {
 				movieObjs[3]);
 
 		// Dynamic SQL with return-scalar
-		List movieListWithScalar = movieService.findMovieListWithScalar(0,
-				"Hojun");
+		List<Object[]> movieListWithScalar = movieService
+				.findMovieListWithScalar(0, "Hojun");
 		assertEquals("Fail to execute dynamic SQL.", 1, movieListWithScalar
 				.size());
 
-		Object[] movieScalar = (Object[]) movieListWithScalar.get(0);
+		Object[] movieScalar = movieListWithScalar.get(0);
 		assertEquals("Fail to compare a movie director", "Hojun Kim",
 				movieScalar[0]);
 		assertEquals("Fail to compare a movie title", "My Little Bride",
@@ -125,7 +125,7 @@ public class DynamicHibernateServiceTest {
 
 	}
 
-	private void initializeData() throws Exception {
+	private void initializeData() {
 		Category category1 = new Category();
 		category1.setCategoryId("CTGR-0001");
 		category1.setCategoryName("Romantic");
@@ -141,7 +141,9 @@ public class DynamicHibernateServiceTest {
 		Movie movie1 = new Movie();
 		movie1.setMovieId("MV-00001");
 		movie1.setDirector("Jaeyong Gwak");
-		movie1.setReleaseDate(DateUtil.string2Date("2001-07-27", "yyyy-MM-dd"));
+		movie1
+				.setReleaseDate(DateUtil.stringToDate("2001-07-27",
+						"yyyy-MM-dd"));
 		movie1.setTitle("My Sassy Girl");
 		movie1.setRank(new Integer(1));
 
@@ -153,7 +155,9 @@ public class DynamicHibernateServiceTest {
 		Movie movie2 = new Movie();
 		movie2.setMovieId("MV-00002");
 		movie2.setDirector("Hojun Kim");
-		movie2.setReleaseDate(DateUtil.string2Date("2004-04-02", "yyyy-MM-dd"));
+		movie2
+				.setReleaseDate(DateUtil.stringToDate("2004-04-02",
+						"yyyy-MM-dd"));
 		movie2.setTitle("My Little Bride");
 		movie1.setRank(new Integer(2));
 

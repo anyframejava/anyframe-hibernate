@@ -1,5 +1,7 @@
 package org.anyframe.hibernate.datatype;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -68,9 +70,10 @@ public class HibernateTimeDateTest extends
 	/**
 	 * [Flow #-2] Positive Case : Data is modified and modification is checked
 	 * by using Entity object defining Time and Date Type.
+	 * @throws ParseException 
 	 */
 	@Test
-	public void testUpdateTimeDateType() {
+	public void testUpdateTimeDateType() throws ParseException {
 		// 1. insert init data
 		insertTimeDateType();
 
@@ -79,7 +82,11 @@ public class HibernateTimeDateTest extends
 				TimeDateType.class, new Integer(875));
 
 		// 3. update data
-		timeDateType.setDateType(new java.sql.Date(80, 5, 4));
+		String strDate = "1980-06-04";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date = sdf.parse(strDate);
+		  
+		timeDateType.setDateType(new java.sql.Date(date.getTime()));
 		session.update(timeDateType);
 
 		// 4. check if update is successful

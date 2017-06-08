@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.anyframe.hibernate.AbstractConfigurationalTest;
 import org.anyframe.hibernate.SetUpInitData;
+import org.anyframe.sample.hibernate.model.bidirection.Category;
 import org.anyframe.sample.hibernate.model.bidirection.Movie;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +38,6 @@ public class HibernateFirstLevelCacheTest extends AbstractConfigurationalTest {
 	 * @throws Exception
 	 */
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testFindMovie() throws Exception {
 		// 1. insert init data. hibernate put initial data into 1LC.
 		newSession();
@@ -46,7 +46,7 @@ public class HibernateFirstLevelCacheTest extends AbstractConfigurationalTest {
 		// 2. find a movie without accessing DB (using 1LC)
 		Movie movie = (Movie) session.get(Movie.class, "MV-00001");
 
-		Set categories = movie.getCategories();
+		Set<Category> categories = movie.getCategories();
 		categories.iterator();
 
 		// 3. find a movie again without accessing DB (using 1LC)

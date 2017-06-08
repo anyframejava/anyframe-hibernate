@@ -6,19 +6,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.anyframe</groupId>
-		<artifactId>anyframe-parent</artifactId>
-		<version>5.2.0</version>
+		<artifactId>anyframe-plugin-parent</artifactId>
+		<version>5.2.1</version>
 	</parent>
 	<groupId>org.anyframe</groupId>
 	<artifactId>anyframe-hibernate</artifactId>
-	<version>1.0.3</version>	
+	<version>1.5.0</version>	
 	<packaging>jar</packaging>
   
 	<dependencies>
 		<dependency>
 			<groupId>org.anyframe</groupId>
 			<artifactId>anyframe-core</artifactId>
-			<version>1.0.4</version>
+			<version>1.5.0</version>
 		</dependency>	
 		<dependency>
 			<groupId>antlr</groupId>
@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>1.2.16</version>
 			<scope>test</scope>
 		</dependency>		
 		<dependency>
@@ -169,7 +169,7 @@
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity-dep</artifactId>
-			<version>1.6.2</version>
+			<version>1.7</version>
 		</dependency>	
 		<dependency>
 			<groupId>cglib</groupId>
@@ -185,7 +185,7 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>1.6</version>
+			<version>1.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>

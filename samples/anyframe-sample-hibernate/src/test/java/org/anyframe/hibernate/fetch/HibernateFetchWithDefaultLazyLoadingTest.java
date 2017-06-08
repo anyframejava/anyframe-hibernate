@@ -6,6 +6,7 @@ import java.util.Set;
 import org.anyframe.hibernate.AbstractConfigurationalTest;
 import org.anyframe.hibernate.SetUpInitData;
 import org.anyframe.sample.hibernate.model.bidirection.Category;
+import org.anyframe.sample.hibernate.model.bidirection.Movie;
 import org.hibernate.Query;
 import org.junit.Assert;
 import org.junit.Test;
@@ -70,28 +71,28 @@ public class HibernateFetchWithDefaultLazyLoadingTest extends
 				Assert.assertEquals("fail to match a category name.", "Comedy",
 						category.getCategoryName());
 
-				Set movies = category.getMovies();
+				Set<Movie> movies = category.getMovies();
 				Assert.assertEquals("fail to match the size of movie list.", 2, movies
 						.size());
 			} else if (i == 1) {
 				Assert.assertEquals("fail to match a category name.", "Horror",
 						category.getCategoryName());
 
-				Set movies = category.getMovies();
+				Set<Movie> movies = category.getMovies();
 				Assert.assertEquals("fail to match the size of movie list.", 1, movies
 						.size());
 			} else if (i == 2) {
 				Assert.assertEquals("fail to match a category name.", "Romantic",
 						category.getCategoryName());
 
-				Set movies = category.getMovies();
+				Set<Movie> movies = category.getMovies();
 				Assert.assertEquals("fail to match the size of movie list.", 2, movies
 						.size());
 			} else if (i == 3) {
 				Assert.assertEquals("fail to match a category name.", "SF", category
 						.getCategoryName());
 
-				Set movies = category.getMovies();
+				Set<Movie> movies = category.getMovies();
 				Assert.assertEquals("fail to match the size of movie list.", 0, movies
 						.size());
 

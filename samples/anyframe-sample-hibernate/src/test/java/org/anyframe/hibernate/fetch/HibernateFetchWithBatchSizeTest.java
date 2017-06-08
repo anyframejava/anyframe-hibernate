@@ -6,6 +6,7 @@ import java.util.Set;
 import org.anyframe.hibernate.AbstractConfigurationalTest;
 import org.anyframe.hibernate.SetUpInitData;
 import org.anyframe.sample.hibernate.model.bidirection.Country;
+import org.anyframe.sample.hibernate.model.bidirection.Movie;
 import org.hibernate.Query;
 import org.junit.Assert;
 import org.junit.Test;
@@ -75,21 +76,21 @@ public class HibernateFetchWithBatchSizeTest extends
 				Assert.assertEquals("fail to match a country name.", "Korea", country
 						.getCountryName());
 
-				Set movies = country.getMovies();
+				Set<Movie> movies = country.getMovies();
 				Assert.assertEquals("fail to match the size of movie list.", 2, movies
 						.size());
 			} else if (i == 1) {
 				Assert.assertEquals("fail to match a country name.", "Japan", country
 						.getCountryName());
 
-				Set movies = country.getMovies();
+				Set<Movie> movies = country.getMovies();
 				Assert.assertEquals("fail to match the size of movie list.", 1, movies
 						.size());
 			} else if (i == 2) {
 				Assert.assertEquals("fail to match a country name.", "U.S.A", country
 						.getCountryName());
 
-				Set movies = country.getMovies();
+				Set<Movie> movies = country.getMovies();
 				Assert.assertEquals("fail to match the size of movie list.", 0, movies
 						.size());
 			}

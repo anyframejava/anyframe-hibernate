@@ -9,9 +9,12 @@
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.format_sql">true</property>
-		<property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
-        <property name="hibernate.cache.use_second_level_cache">true</property>     
+        <property name="hibernate.format_sql">true</property>        
+		<!--property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property-->
+		<!--property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property-->
+		<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>     
         <property name="hbm2ddl.auto">create</property>
 
         <!-- Enable Hibernate's automatic session context management -->

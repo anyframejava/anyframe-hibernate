@@ -139,13 +139,13 @@ public class HibernateOptimisticLockingTest extends AbstractConfigurationalTest 
 		Movie movie1 = new Movie();
 		movie1.setMovieId("MV-00001");
 		movie1.setDirector("J.Y.Gwak");
-		movie1.setReleaseDate(DateUtil.string2Date("2001-07-27", "yyyy-MM-dd"));
+		movie1.setReleaseDate(DateUtil.stringToDate("2001-07-27", "yyyy-MM-dd"));
 		movie1.setTitle("My Sassy Girl");
 
 		Movie movie2 = new Movie();
 		movie2.setMovieId("MV-00002");
 		movie2.setDirector("Hojun Kim");
-		movie2.setReleaseDate(DateUtil.string2Date("2004-04-02", "yyyy-MM-dd"));
+		movie2.setReleaseDate(DateUtil.stringToDate("2004-04-02", "yyyy-MM-dd"));
 		movie2.setTitle("My Little Bride");
 
 		Country country1 = new Country();

@@ -289,7 +289,7 @@ public class HibernateCollectionMappingTest extends AbstractTest {
 		Movie movie3 = new Movie();
 		movie3.setMovieId("MV-00003");
 		movie3.setDirector("김지운");
-		movie3.setReleaseDate(DateUtil.string2Date("2008-07-17", "yyyy-MM-dd"));
+		movie3.setReleaseDate(DateUtil.stringToDate("2008-07-17", "yyyy-MM-dd"));
 		movie3.setTitle("The Good, The Bad, The Weird");
 		movie3.setCountryCode(countryCode);
 
@@ -303,7 +303,7 @@ public class HibernateCollectionMappingTest extends AbstractTest {
 		movie1.setCountryCode(countryCode);
 		movie1.setMovieId("MV-00001");
 		movie1.setDirector("Jaeyong Gwak");
-		movie1.setReleaseDate(DateUtil.string2Date("2001-07-27", "yyyy-MM-dd"));
+		movie1.setReleaseDate(DateUtil.stringToDate("2001-07-27", "yyyy-MM-dd"));
 		movie1.setTitle("My Sassy Girl");
 		movies[0] = movie1;
 
@@ -311,7 +311,7 @@ public class HibernateCollectionMappingTest extends AbstractTest {
 		movie2.setCountryCode(countryCode);
 		movie2.setMovieId("MV-00002");
 		movie2.setDirector("Hojun Kim");
-		movie2.setReleaseDate(DateUtil.string2Date("2004-04-02", "yyyy-MM-dd"));
+		movie2.setReleaseDate(DateUtil.stringToDate("2004-04-02", "yyyy-MM-dd"));
 		movie2.setTitle("My Little Bride");
 		movies[1] = movie2;
 

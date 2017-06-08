@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.anyframe.hibernate.AbstractConfigurationalTransactionalTest;
 import org.anyframe.hibernate.SetUpInitData;
+import org.anyframe.sample.hibernate.model.bidirection.Category;
 import org.anyframe.sample.hibernate.model.bidirection.Movie;
 import org.hibernate.Criteria;
 import org.junit.Assert;
@@ -67,7 +68,7 @@ public class HibernateCriteriaPagingTest extends
 				Assert.assertEquals("fail to match a movie director.", "Hojun Kim",
 						movie.getDirector());
 
-				Set categories = movie.getCategories();
+				Set<Category> categories = movie.getCategories();
 				Assert.assertEquals("fail to match the size of category list.", 2,
 						categories.size());
 			} else if (i == 1) {
@@ -76,7 +77,7 @@ public class HibernateCriteriaPagingTest extends
 				Assert.assertEquals("fail to match a movie director.", "Hideo Nakata",
 						movie.getDirector());
 
-				Set categories = movie.getCategories();
+				Set<Category> categories = movie.getCategories();
 				Assert.assertEquals("fail to match the size of category list.", 1,
 						categories.size());
 			}

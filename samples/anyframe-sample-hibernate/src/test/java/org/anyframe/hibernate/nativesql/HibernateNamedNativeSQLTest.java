@@ -68,20 +68,20 @@ public class HibernateNamedNativeSQLTest extends
 				.getCountryName());
 
 		// 4. assert result - movies
-		Set movies = country.getMovies();
+		Set<Movie> movies = country.getMovies();
 		Assert.assertEquals("fail to match the size of movie list.", 2, movies.size());
-		Movie movie = (Movie) movies.iterator().next();
+		Movie movie = movies.iterator().next();
 		Assert.assertTrue("fail to match the title of movie.", movie.getTitle()
 				.equals("My Sassy Girl")
 				|| movie.getTitle().equals("My Little Bride"));
 
 		// 5. assert result - categories
-		Set categories = movie.getCategories();
+		Set<Category> categories = movie.getCategories();
 		Assert.assertEquals("fail to match the size of category list.", 2, categories
 				.size());
 
-		Iterator categoryItr = categories.iterator();
-		Category category = (Category) categoryItr.next();
+		Iterator<Category> categoryItr = categories.iterator();
+		Category category = categoryItr.next();
 		Assert.assertTrue("fail to match the name of category.", category
 				.getCategoryName().equals("Romantic")
 				|| category.getCategoryName().equals("Comedy"));
@@ -117,7 +117,7 @@ public class HibernateNamedNativeSQLTest extends
 
 		// 4. asssert result - categories
 		@SuppressWarnings("unused")
-		Set categories = movie1.getCategories();
+		Set<Category> categories = movie1.getCategories();
 		Assert.assertEquals("fail to match the size of category list.", 2, movie1
 				.getCategories().size());
 	}
@@ -152,12 +152,12 @@ public class HibernateNamedNativeSQLTest extends
 				.getDirector());
 
 		// 4. assert result - categories
-		Set categories = movie1.getCategories();
+		Set<Category> categories = movie1.getCategories();
 		Assert.assertEquals("fail to match the size of category list.", 2, movie1
 				.getCategories().size());
 
-		Iterator categoryItr = categories.iterator();
-		Category category = (Category) categoryItr.next();
+		Iterator<Category> categoryItr = categories.iterator();
+		Category category = categoryItr.next();
 		Assert.assertTrue("fail to match the name of category.", category
 				.getCategoryName().equals("Romantic")
 				|| category.getCategoryName().equals("Comedy"));
@@ -188,7 +188,7 @@ public class HibernateNamedNativeSQLTest extends
 		Assert.assertEquals("fail to match the name of category.", "Comedy", category1
 				.getCategoryName());
 
-		Set movies = category1.getMovies();
+		Set<Movie> movies = category1.getMovies();
 		Assert.assertTrue("fail to match the size of movie list.", movies.size() == 0);
 
 		Category category2 = (Category) categoryList.get(1);

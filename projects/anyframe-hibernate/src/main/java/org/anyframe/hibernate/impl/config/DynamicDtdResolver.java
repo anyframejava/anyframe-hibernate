@@ -31,8 +31,7 @@ public class DynamicDtdResolver implements EntityResolver {
 
 	private static final String DYNAMICHIBERNATE_MAPPING_DTD_NAME = "/dtd/anyframe-dynamic-hibernate-mapping-4.0.dtd";
 
-	public InputSource resolveEntity(String publicId, String systemId)
-			throws IOException {
+	public InputSource resolveEntity(String publicId, String systemId) {
 		if (systemId != null) {
 			try {
 				InputSource source = new InputSource(new ClassPathResource(
@@ -40,7 +39,7 @@ public class DynamicDtdResolver implements EntityResolver {
 				source.setPublicId(publicId);
 
 				return source;
-			} catch (Exception ex) {
+			} catch (IOException ex) {
 				DynamicHibernateService.LOGGER
 						.warn(
 								"Dynamic Hibernate Service : Fail to resolve mapping xml files.",

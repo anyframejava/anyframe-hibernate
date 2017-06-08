@@ -18,7 +18,6 @@ package org.anyframe.hibernate.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,15 +26,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.anyframe.exception.BaseException;
+import org.anyframe.exception.ConfigurationException;
+import org.anyframe.exception.ConversionException;
+import org.anyframe.exception.MissingRequiredPropertyException;
 import org.anyframe.hibernate.DynamicHibernateService;
 import org.anyframe.hibernate.impl.config.DynamicDtdResolver;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -56,6 +57,7 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.xml.sax.SAXException;
@@ -69,7 +71,7 @@ import org.xml.sax.XMLReader;
  * based data access to be simple and the HQL/SQL is understood easily resulting
  * in less errors and easier HQL/SQL modifications.
  * <p>
- * Configuration Example :
+ * Configuration Example : 
  * 
  * <pre>
  * &lt;bean id=&quot;dynamicHibernateService&quot;
@@ -132,24 +134,20 @@ import org.xml.sax.XMLReader;
  * 
  * @author SoYon Lim
  */
-@SuppressWarnings("unchecked")
 public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 		InitializingBean, ResourceLoaderAware {
 
 	private final static String DELIMETER = "=";
 
-	private HashMap queries = new HashMap();
+	private final Map<String, QueryInfo> queries = new HashMap<String, QueryInfo>();
 
-	@SuppressWarnings("unused")
-	private SessionFactory sessionFactory;
-
-	private List fileNames;
+	private List<String> fileNames;
 
 	private ResourceLoader resourceLoader = null;
 
 	private HibernateTemplate hibernateTemplate;
 
-	public void setFileNames(List fileNames) {
+	public void setFileNames(List<String> fileNames) {
 		this.fileNames = fileNames;
 	}
 
@@ -162,7 +160,6 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
 	}
 
@@ -171,28 +168,35 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 * this service's property. For each XML file's HQL, we put the statements
 	 * in the HashMap with identifier as key.
 	 */
-	public void afterPropertiesSet() throws Exception {
-		DefaultConfigurationBuilder builder = getBuilder();
+	public void afterPropertiesSet() {
+		DefaultConfigurationBuilder builder;
+
+		try {
+			builder = getBuilder();
+		} catch (Exception ex) {
+			throw new ConfigurationException(
+					"Could not find the configuration builder", ex);
+		}
 
 		for (int i = 0; i < fileNames.size(); i++) {
-			String fileName = ((String) fileNames.get(i)).trim();
+			String fileName = fileNames.get(i).trim();
 
-			if (resourceLoader instanceof ResourcePatternResolver) {
-				// Resource pattern matching available.
-				try {
+			try {
+				if (resourceLoader instanceof ResourcePatternResolver) {
+					// Resource pattern matching available.
 					Resource[] resources = ((ResourcePatternResolver) resourceLoader)
 							.getResources(fileName);
 					buildQueryMap(builder, resources);
-				} catch (IOException ex) {
-					throw new ConfigurationException(
-							"Could not resolve sql definition resource pattern ["
-									+ fileName + "]", ex);
+				} else {
+					// Can only load single resources by
+					// absolute URL.
+					Resource resource = resourceLoader.getResource(fileName);
+					buildQueryMap(builder, new Resource[] { resource });
 				}
-			} else {
-				// Can only load single resources by
-				// absolute URL.
-				Resource resource = resourceLoader.getResource(fileName);
-				buildQueryMap(builder, new Resource[] { resource });
+			} catch (Exception ex) {
+				throw new ConfigurationException(
+						"Could not resolve sql definition resource pattern ["
+								+ fileName + "]", ex);
 			}
 		}
 	}
@@ -211,11 +215,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 * @param value
 	 *            variable value for replacing in phrases handled with variable
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public List findListByNamedParam(String queryName, String paramName,
-			Object value) throws Exception {
+	public <T> List<T> findListByNamedParam(String queryName, String paramName,
+			Object value) throws DataAccessException {
 		return findListByNamedParam(queryName, new String[] { paramName },
 				new Object[] { value });
 	}
@@ -235,11 +240,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            Variable values for replacing in phrases handled with
 	 *            variables
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public List findListByNamedParam(String queryName, String[] paramNames,
-			Object[] values) throws Exception {
+	public <T> List<T> findListByNamedParam(String queryName,
+			String[] paramNames, Object[] values) throws DataAccessException {
 		return findListByNamedParam(queryName, paramNames, values, 0, 0);
 	}
 
@@ -256,10 +262,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            defines as 'name=value' the variable values for replacing the
 	 *            variables defined in dynamic HQL
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public List findList(String queryName, Object[] values) throws Exception {
+	public <T> List<T> findList(String queryName, Object[] values)
+			throws DataAccessException {
 		return findList(queryName, values, 0, 0);
 	}
 
@@ -284,11 +292,13 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public List findListByNamedParam(String queryName, String paramName,
-			Object value, int pageIndex, int pageSize) throws Exception {
+	public <T> List<T> findListByNamedParam(String queryName, String paramName,
+			Object value, int pageIndex, int pageSize)
+			throws DataAccessException {
 		return findListByNamedParam(queryName, paramName, value, pageIndex,
 				pageSize);
 	}
@@ -312,11 +322,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public List findList(String queryName, Object[] values, int pageIndex,
-			int pageSize) throws Exception {
+	public <T> List<T> findList(String queryName, Object[] values,
+			int pageIndex, int pageSize) throws DataAccessException {
 		final Context context = generateVelocityContext(values);
 		return executeFind(context, queryName, pageIndex, pageSize);
 	}
@@ -342,11 +353,13 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public List findListByNamedParam(String queryName, String[] paramNames,
-			Object[] values, int pageIndex, int pageSize) throws Exception {
+	public <T> List<T> findListByNamedParam(String queryName,
+			String[] paramNames, Object[] values, int pageIndex, int pageSize)
+			throws DataAccessException {
 		final Context context = generateVelocityContext(paramNames, values);
 		return executeFind(context, queryName, pageIndex, pageSize);
 	}
@@ -364,12 +377,15 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            defines as 'name=value' the variable values for replacing the
 	 *            variables defined in dynamic HQL
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public Object find(String queryName, Object[] values) throws Exception {
+	@SuppressWarnings("unchecked")
+	public <T> T find(String queryName, Object[] values)
+			throws DataAccessException {
 		Context context = generateVelocityContext(values);
-		return execute(context, queryName);
+		return (T) execute(context, queryName);
 	}
 
 	/**
@@ -387,13 +403,15 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            variable values for replacing in phrases handled with
 	 *            variables
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public Object findByNamedParam(String queryName, String[] paramNames,
-			Object[] values) throws Exception {
+	@SuppressWarnings("unchecked")
+	public <T> T findByNamedParam(String queryName, String[] paramNames,
+			Object[] values) throws DataAccessException {
 		Context context = generateVelocityContext(paramNames, values);
-		return execute(context, queryName);
+		return (T) execute(context, queryName);
 	}
 
 	/**
@@ -412,12 +430,14 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            variable value for replacing in phrases handled with variable
 	 * @return being specified HQL execution results, returns numerous data in a
 	 *         list type
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	public Object findByNamedParam(String queryName, String paramName,
-			Object value) throws Exception {
-		return findByNamedParam(queryName, new String[] { paramName },
+	@SuppressWarnings("unchecked")
+	public <T> T findByNamedParam(String queryName, String paramName,
+			Object value) throws DataAccessException {
+		return (T) findByNamedParam(queryName, new String[] { paramName },
 				new Object[] { value });
 	}
 
@@ -429,16 +449,19 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 * @param queryName
 	 *            executable dynamic HQL's identifier
 	 * @return being specified query execution results
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	private Object execute(final Context context, final String queryName) {
-		return this.hibernateTemplate.execute(new HibernateCallback() {
-			public Object doInHibernate(Session session)
-					throws HibernateException, SQLException {
+	@SuppressWarnings("unchecked")
+	private <T> T execute(final Context context, final String queryName)
+			throws DataAccessException {
+		return this.hibernateTemplate.execute(new HibernateCallback<T>() {
+			public T doInHibernate(Session session) throws DataAccessException {
 				try {
 					Query query = findInternal(session, queryName, context);
-					return query.uniqueResult();
+					return (T) query.uniqueResult();
 				} catch (Exception e) {
-					e.printStackTrace();
 					throw new HibernateException(e.getMessage());
 				}
 			}
@@ -458,25 +481,34 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	private List executeFind(final Context context, final String queryName,
-			final int pageIndex, final int pageSize) {
-		return this.hibernateTemplate.executeFind(new HibernateCallback() {
-			public Object doInHibernate(Session session)
-					throws HibernateException, SQLException {
-				try {
-					Query query = findInternal(session, queryName, context);
-					if (pageIndex > 0 && pageSize > 0) {
-						query.setFirstResult((pageIndex - 1) * pageSize);
-						query.setMaxResults(pageSize);
-					}
+	@SuppressWarnings("unchecked")
+	private <T> List<T> executeFind(final Context context,
+			final String queryName, final int pageIndex, final int pageSize)
+			throws DataAccessException {
+		return this.hibernateTemplate
+				.executeFind(new HibernateCallback<List>() {
+					public List doInHibernate(Session session)
+							throws DataAccessException {
+						try {
+							Query query = findInternal(session, queryName,
+									context);
+							if (pageIndex > 0 && pageSize > 0) {
+								query
+										.setFirstResult((pageIndex - 1)
+												* pageSize);
+								query.setMaxResults(pageSize);
+							}
 
-					return query.list();
-				} catch (IOException e) {
-					throw new HibernateException(e.getMessage());
-				}
-			}
-		});
+							return query.list();
+						} catch (IOException e) {
+							throw new HibernateException(e.getMessage());
+						}
+					}
+				});
 	}
 
 	/**
@@ -491,7 +523,7 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 * @param context
 	 *            velocity context
 	 * @return query instance set with parameter
-	 * @throws Exception
+	 * @throws IOException
 	 *             for the query instance, there is a problem while setting the
 	 *             parameter
 	 */
@@ -499,7 +531,7 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 			Context context) throws IOException {
 		if (context == null)
 			context = new VelocityContext();
-		QueryInfo info = (QueryInfo) queries.get(queryName);
+		QueryInfo info = queries.get(queryName);
 
 		// text replacement
 		String sql = getRunnableSQL(info.getStatement(), context);
@@ -529,12 +561,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 		return query;
 	}
 
-	private void addEntity(SQLQuery query, List returnList) {
+	private void addEntity(SQLQuery query, List<ReturnInfo> returnList) {
 		if (!returnList.isEmpty())
 			for (int i = 0; i < returnList.size(); i++) {
-				ReturnInfo info = (ReturnInfo) returnList.get(i);
+				ReturnInfo info = returnList.get(i);
 				String alias = info.getAlias();
-				Class clazz = info.getClazz();
+				Class<?> clazz = info.getClazz();
 				String entityName = info.getEntityName();
 
 				if (alias != null) {
@@ -551,28 +583,28 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 			}
 	}
 
-	private void addJoin(SQLQuery query, Map returnJoinMap) {
+	private void addJoin(SQLQuery query, Map<String, String> returnJoinMap) {
 		if (!returnJoinMap.isEmpty()) {
-			Set keySet = returnJoinMap.keySet();
-			Iterator keyItr = keySet.iterator();
+			Set<String> keySet = returnJoinMap.keySet();
+			Iterator<String> keyItr = keySet.iterator();
 
 			while (keyItr.hasNext()) {
-				String alias = (String) keyItr.next();
-				String property = (String) returnJoinMap.get(alias);
+				String alias = keyItr.next();
+				String property = returnJoinMap.get(alias);
 				query.addJoin(alias, property);
 			}
 		}
 	}
 
-	private void addScalar(SQLQuery query, Map returnScalarMap) {
+	private void addScalar(SQLQuery query, Map<String, String> returnScalarMap) {
 		BasicTypeRegistry typeRegistry = new BasicTypeRegistry();
 		if (!returnScalarMap.isEmpty()) {
-			Set keySet = returnScalarMap.keySet();
-			Iterator keyItr = keySet.iterator();
+			Set<String> keySet = returnScalarMap.keySet();
+			Iterator<String> keyItr = keySet.iterator();
 
 			while (keyItr.hasNext()) {
-				String column = (String) keyItr.next();
-				String typeName = (String) returnScalarMap.get(column);
+				String column = keyItr.next();
+				String typeName = returnScalarMap.get(column);
 				if (typeName != null)
 					query.addScalar(column, typeRegistry
 							.getRegisteredType(typeName));
@@ -584,7 +616,8 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	}
 
 	private void buildQueryMap(DefaultConfigurationBuilder builder,
-			Resource[] resources) throws Exception {
+			Resource[] resources) throws DocumentException,
+			ClassNotFoundException, IOException {
 		for (int i = 0; i < resources.length; i++) {
 			buildQueryMap(builder, resources[i].getInputStream());
 		}
@@ -601,60 +634,54 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            inputStream of XML file defining the dynamic query
 	 * @throws DocumentationException
 	 *             in reading the appropriate XML File, there is a problem
-	 * @throws ConfigurationException
-	 *             in handling the elements defined in the appropriate XML,
-	 *             there is a problem
 	 * @throws ClassNotFoundException
 	 *             if return class doesn't exist
 	 */
 	private void buildQueryMap(DefaultConfigurationBuilder builder,
 			InputStream inputStream) throws DocumentException,
-			ConfigurationException, ClassNotFoundException {
-		try {
-			XMLHelper xmlHelper = new XMLHelper();
+			ClassNotFoundException {
+		XMLHelper xmlHelper = new XMLHelper();
 
-			List errors = new ArrayList();
-			Document doc = xmlHelper.createSAXReader("XML InputStream", errors,
-					new DynamicDtdResolver()).read(inputStream);
+		@SuppressWarnings("unchecked")
+		List errors = new ArrayList();
 
-			Element root = doc.getRootElement();
+		Document doc = xmlHelper.createSAXReader("XML InputStream", errors,
+				new DynamicDtdResolver()).read(inputStream);
 
-			@SuppressWarnings("unused")
-			Element queryElements = root.element("query");
-			queries.putAll(buildQueryMap("hql", root, "query"));
+		Element root = doc.getRootElement();
 
-			queryElements = root.element("sql-query");
-			queries.putAll(buildQueryMap("sql", root, "sql-query"));
+		@SuppressWarnings("unused")
+		Element queryElements = root.element("query");
+		queries.putAll(buildQueryMap("hql", root, "query"));
 
-		} catch (DocumentException de) {
-			throw de;
-		}
+		queryElements = root.element("sql-query");
+		queries.putAll(buildQueryMap("sql", root, "sql-query"));
 	}
 
-	private Map buildQueryMap(String type, Element rootElements,
-			String elementName) throws ConfigurationException,
-			ClassNotFoundException {
-		Map queryMap = new HashMap();
+	private Map<String, QueryInfo> buildQueryMap(String type,
+			Element rootElements, String elementName)
+			throws ClassNotFoundException {
+		Map<String, QueryInfo> queryMap = new HashMap<String, QueryInfo>();
 
-		Iterator elementItr = rootElements.elementIterator(elementName);
+		Iterator<?> elementItr = rootElements.elementIterator(elementName);
 		while (elementItr.hasNext()) {
 			Element queryElement = (Element) elementItr.next();
 
 			String queryName = queryElement.attributeValue("name", "");
 
-			if (queryName.equals(""))
-				throw new ConfigurationException(
+			if ("".equals(queryName))
+				throw new MissingRequiredPropertyException(
 						"DynamicHibernate Service : name is essential attribute in a <query>.");
 
-			Iterator returnsItr = queryElement.elementIterator("return");
+			Iterator<?> returnsItr = queryElement.elementIterator("return");
 
-			List returnList = new ArrayList();
+			List<ReturnInfo> returnList = new ArrayList<ReturnInfo>();
 			while (returnsItr.hasNext()) {
 				Element element = (Element) returnsItr.next();
 				String alias = element.attributeValue("alias", null);
 				String className = element.attributeValue("class", null);
 
-				Class clazz = null;
+				Class<?> clazz = null;
 				if (className != null)
 					clazz = Class.forName(className);
 
@@ -662,10 +689,10 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 				returnList.add(new ReturnInfo(alias, clazz, entityName));
 			}
 
-			Iterator returnJoinsItr = queryElement
+			Iterator<?> returnJoinsItr = queryElement
 					.elementIterator("return-join");
 
-			Map returnJoinMap = new HashMap();
+			Map<String, String> returnJoinMap = new HashMap<String, String>();
 			while (returnJoinsItr.hasNext()) {
 				Element element = (Element) returnJoinsItr.next();
 				String alias = element.attributeValue("alias");
@@ -673,20 +700,21 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 				returnJoinMap.put(alias, property);
 			}
 
-			Iterator returnScalarsItr = queryElement
+			Iterator<?> returnScalarsItr = queryElement
 					.elementIterator("return-scalar");
 
-			Map returnScalarMap = new HashMap();			
+			Map<String, String> returnScalarMap = new HashMap<String, String>();
 			while (returnScalarsItr.hasNext()) {
 				Element element = (Element) returnScalarsItr.next();
+				@SuppressWarnings("unused")
 				String column = element.attributeValue("column");
+				@SuppressWarnings("unused")
 				String columnType = element.attributeValue("type", null);
 			}
 
 			QueryInfo info = new QueryInfo(type, queryElement.getText(),
 					returnList, returnJoinMap, returnScalarMap);
 			queryMap.put(queryName, info);
-
 		}
 
 		return queryMap;
@@ -694,15 +722,16 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 
 	private String getRunnableSQL(String sql, Context context) {
 		StringBuffer tempStatement = new StringBuffer(sql);
-		SortedMap replacementPositions = findTextReplacements(tempStatement);
+		SortedMap<Integer, String> replacementPositions = findTextReplacements(tempStatement);
 
-		Iterator properties = replacementPositions.entrySet().iterator();
+		Iterator<Entry<Integer, String>> properties = replacementPositions
+				.entrySet().iterator();
 		int valueLengths = 0;
 		while (properties.hasNext()) {
-			Map.Entry entry = (Map.Entry) properties.next();
-			Integer pos = (Integer) entry.getKey();
-			String key = (String) entry.getValue();
-			Object replaceValue = (String) context.get(key);
+			Map.Entry<Integer, String> entry = properties.next();
+			Integer pos = entry.getKey();
+			String key = entry.getValue();
+			Object replaceValue = context.get(key);
 			if (replaceValue == null) {
 				throw new HibernateException(
 						"DynamicHibernate Service : Text replacement ["
@@ -712,11 +741,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 			tempStatement.insert(pos.intValue() + valueLengths, value);
 			valueLengths += value.length();
 		}
+
 		return tempStatement.toString();
 	}
 
-	private SortedMap findTextReplacements(StringBuffer sql) {
-		TreeMap textReplacements = new TreeMap();
+	private SortedMap<Integer, String> findTextReplacements(StringBuffer sql) {
+		TreeMap<Integer, String> textReplacements = new TreeMap<Integer, String>();
 		int startPos = 0;
 		while ((startPos = sql.indexOf("{{", startPos)) > -1) {
 			int endPos = sql.indexOf("}}", startPos);
@@ -724,6 +754,7 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 			sql.replace(startPos, endPos + 2, "");
 			textReplacements.put(new Integer(startPos), replacementKey);
 		}
+
 		return textReplacements;
 	}
 
@@ -762,12 +793,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the dynamic HQL phrase.
 	 * @return The context instance mapped with the variable and values needed
 	 *         to complete the HQL defined using Velocity grammar.
-	 * @throws Exception
+	 * @throws ConversionException
 	 *             the input parameter is as Object[]{Object[]{name1,value1},
 	 *             Object[]{name2,value2},...} The internally defined Object[]'s
 	 *             length is not 2.
 	 */
-	private Context generateVelocityContext(Object[] values) throws Exception {
+	private Context generateVelocityContext(Object[] values) {
 		VelocityContext context = new VelocityContext();
 		String localStr = null;
 		Object[] localArray = null;
@@ -784,7 +815,7 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 				if (localArray.length != 2) {
 					DynamicHibernateService.LOGGER
 							.error("DynamicHibernate Service : Fail to generate value map from Object[]{var1=value1,var2=value2,...} or Object[]{Object[]{var1,value1}, Object[]{var2,value2}, ...}");
-					throw new BaseException(
+					throw new ConversionException(
 							"DynamicHibernate Service : Fail to generate value map from Object[]{var1=value1,var2=value2,...} or Object[]{Object[]{var1,value1}, Object[]{var2,value2}, ...}");
 				}
 				context.put(localArray[0].toString(), localArray[1]);
@@ -816,21 +847,20 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 		saxParserFactory.setValidating(false);
 		final SAXParser saxParser = saxParserFactory.newSAXParser();
 		XMLReader parser = saxParser.getXMLReader();
-		// parser.setErrorHandler(new
-		// BeansErrorHandler());
 		parser.setEntityResolver(new BeansDtdResolver());
 		return new DefaultConfigurationBuilder(parser);
 	}
-	
-	private class QueryInfo {
-		private String type;
-		private String statement;
-		private List returnList = new ArrayList();
-		private Map returnJoinMap = new HashMap();
-		private Map returnScalarMap = new HashMap();
 
-		public QueryInfo(String type, String statement, List returnList,
-				Map returnJoinMap, Map returnScalarMap) {
+	private class QueryInfo {
+		private final String type;
+		private final String statement;
+		private List<ReturnInfo> returnList = new ArrayList<ReturnInfo>();
+		private Map<String, String> returnJoinMap = new HashMap<String, String>();
+		private Map<String, String> returnScalarMap = new HashMap<String, String>();
+
+		public QueryInfo(String type, String statement,
+				List<ReturnInfo> returnList, Map<String, String> returnJoinMap,
+				Map<String, String> returnScalarMap) {
 			super();
 			this.type = type;
 			this.statement = statement;
@@ -839,31 +869,30 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 			this.returnScalarMap = returnScalarMap;
 		}
 
-		public List getReturnList() {
+		public List<ReturnInfo> getReturnList() {
 			return returnList;
 		}
 
-		
 		@SuppressWarnings("unused")
-		public void setReturnList(List returnList) {
+		public void setReturnList(List<ReturnInfo> returnList) {
 			this.returnList = returnList;
 		}
 
-		public Map getReturnJoinMap() {
+		public Map<String, String> getReturnJoinMap() {
 			return returnJoinMap;
 		}
 
 		@SuppressWarnings("unused")
-		public void setReturnJoinMap(Map returnJoinMap) {
+		public void setReturnJoinMap(Map<String, String> returnJoinMap) {
 			this.returnJoinMap = returnJoinMap;
 		}
 
-		public Map getReturnScalarMap() {
+		public Map<String, String> getReturnScalarMap() {
 			return returnScalarMap;
 		}
 
 		@SuppressWarnings("unused")
-		public void setReturnScalarMap(Map returnScalarMap) {
+		public void setReturnScalarMap(Map<String, String> returnScalarMap) {
 			this.returnScalarMap = returnScalarMap;
 		}
 
@@ -878,10 +907,10 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 
 	private class ReturnInfo {
 		private String alias;
-		private Class clazz;
+		private Class<?> clazz;
 		private String entityName;
 
-		public ReturnInfo(String alias, Class clazz, String entityName) {
+		public ReturnInfo(String alias, Class<?> clazz, String entityName) {
 			super();
 			this.alias = alias;
 			this.clazz = clazz;
@@ -897,12 +926,12 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 			this.alias = alias;
 		}
 
-		public Class getClazz() {
+		public Class<?> getClazz() {
 			return clazz;
 		}
 
 		@SuppressWarnings("unused")
-		public void setClazz(Class clazz) {
+		public void setClazz(Class<?> clazz) {
 			this.clazz = clazz;
 		}
 
@@ -914,6 +943,5 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 		public void setEntityName(String entityName) {
 			this.entityName = entityName;
 		}
-
 	}
 }

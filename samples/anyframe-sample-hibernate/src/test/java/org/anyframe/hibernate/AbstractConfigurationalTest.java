@@ -1,5 +1,7 @@
 package org.anyframe.hibernate;
 
+import net.sf.ehcache.CacheManager;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -11,7 +13,7 @@ public abstract class AbstractConfigurationalTest {
 	protected Session session;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		//super.setUp();
 		if (initialSessionFactory == null) {
 			initialSessionFactory = newSessionFactory(getHibernateConfigLocation());
@@ -19,8 +21,9 @@ public abstract class AbstractConfigurationalTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		//super.tearDown();
+		CacheManager.getInstance().shutdown();
 	}
 
 	private SessionFactory newSessionFactory(String configFilePath) {

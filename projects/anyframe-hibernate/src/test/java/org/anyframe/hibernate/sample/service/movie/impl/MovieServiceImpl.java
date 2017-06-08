@@ -22,7 +22,6 @@ import org.anyframe.hibernate.sample.model.bidirection.Country;
 import org.anyframe.hibernate.sample.model.bidirection.Movie;
 import org.anyframe.hibernate.sample.service.movie.MovieService;
 
-@SuppressWarnings("unchecked")
 public class MovieServiceImpl implements MovieService {
 
 	private MovieDao movieDao;
@@ -31,60 +30,58 @@ public class MovieServiceImpl implements MovieService {
 		this.movieDao = movieDao;
 	}
 
-	public void createMovie(Movie movie) throws Exception {
-		this.movieDao.createMovie(movie);
+	public void createMovie(Movie movie) {
+		movieDao.createMovie(movie);
 	}
 
-	public void createMovieList(List movieList) throws Exception {
-		this.movieDao.createMovieList(movieList);
+	public void createMovieList(List<Movie> movieList) {
+		movieDao.createMovieList(movieList);
 	}
 
-	public Movie findMovie(String movieId) throws Exception {
-		return this.movieDao.findMovie(movieId);
+	public Movie findMovie(String movieId) {
+		return movieDao.findMovie(movieId);
 	}
 
-	public List findMovieList(int conditionType, String condition)
-			throws Exception {
-		return this.movieDao.findMovieList(conditionType, condition);
+	public List<Movie> findMovieList(int conditionType, String condition) {
+		return movieDao.findMovieList(conditionType, condition);
 	}
 
-	public List findMovieListWithSQL(int conditionType, String condition)
-			throws Exception {
-		return this.movieDao.findMovieListWithSQL(conditionType, condition);
+	public List<Movie> findMovieListWithSQL(int conditionType, String condition) {
+		return movieDao.findMovieListWithSQL(conditionType, condition);
 	}
 
-	public List findMovieListWithoutReturn(int conditionType, String condition)
-			throws Exception {
-		return this.movieDao.findMovieListWithoutReturn(conditionType,
+	public List<Object[]> findMovieListWithoutReturn(int conditionType,
+			String condition) {
+		return movieDao.findMovieListWithoutReturn(conditionType,
 				condition);
 	}
 
-	public List findMovieListWithScalar(int conditionType, String condition)
-			throws Exception {
-		return this.movieDao.findMovieListWithScalar(conditionType, condition);
+	public List<Object[]> findMovieListWithScalar(int conditionType,
+			String condition) {
+		return movieDao.findMovieListWithScalar(conditionType, condition);
 	}
 
-	public List findMovieListByCountry(String countryCode) throws Exception {
-		return this.movieDao.findMovieListByCountry(countryCode);
+	public List<Object[]> findMovieListByCountry(String countryCode) {
+		return movieDao.findMovieListByCountry(countryCode);
 	}
 
-	public List findMovieListAll() throws Exception {
-		return this.findMovieListAll();
+	public List<Movie> findMovieListAll() {
+		return findMovieListAll();
 	}
 
-	public void removeMovie(Movie movie) throws Exception {
-		this.movieDao.removeMovie(movie);
+	public void removeMovie(Movie movie) {
+		movieDao.removeMovie(movie);
 	}
 
-	public void updateMovie(Movie movie) throws Exception {
-		this.movieDao.updateMovie(movie);
+	public void updateMovie(Movie movie) {
+		movieDao.updateMovie(movie);
 	}
 
-	public void createCategory(Category category) throws Exception {
-		this.movieDao.createCategory(category);
+	public void createCategory(Category category) {
+		movieDao.createCategory(category);
 	}
 
-	public void createCountry(Country country) throws Exception {
-		this.movieDao.createCountry(country);
+	public void createCountry(Country country) {
+		movieDao.createCountry(country);
 	}
 }

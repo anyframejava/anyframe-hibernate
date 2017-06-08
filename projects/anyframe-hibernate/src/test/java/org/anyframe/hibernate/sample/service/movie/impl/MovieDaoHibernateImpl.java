@@ -23,7 +23,6 @@ import org.anyframe.hibernate.sample.model.bidirection.Country;
 import org.anyframe.hibernate.sample.model.bidirection.Movie;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-@SuppressWarnings("unchecked")
 public class MovieDaoHibernateImpl extends HibernateDaoSupport implements
 		MovieDao {
 
@@ -34,46 +33,44 @@ public class MovieDaoHibernateImpl extends HibernateDaoSupport implements
 		this.dynamicHibernateService = dynamicHibernateService;
 	}
 
-	public void createMovie(Movie movie) throws Exception {
-		this.getHibernateTemplate().save(movie);
+	public void createMovie(Movie movie) {
+		super.getHibernateTemplate().save(movie);
 	}
 
-	public void createMovieList(List movieList) throws Exception {
+	public void createMovieList(List<Movie> movieList) {
 		for (int i = 0; i < movieList.size(); i++) {
-			Movie movie = (Movie) movieList.get(i);
+			Movie movie = movieList.get(i);
 			this.createMovie(movie);
 			if (i == 1) {
-				throw new Exception(
+				throw new org.anyframe.exception.PersistenceException(
 						"test exception for transaction management in definitive way.");
 			}
 		}
 	}
 
-	public Movie findMovie(String movieId) throws Exception {
-		return (Movie) this.getHibernateTemplate().get(Movie.class, movieId);
+	public Movie findMovie(String movieId) {
+		return super.getHibernateTemplate().get(Movie.class, movieId);
 	}
 
-	public List findMovieList(int conditionType, String condition)
-			throws Exception {
+	public List<Movie> findMovieList(int conditionType, String condition) {
 		return dynamicHibernateService.findList("dynamicFindMovieListAll",
 				makeArguments(conditionType, condition));
 	}
 
-	public List findMovieListWithSQL(int conditionType, String condition)
-			throws Exception {
+	public List<Movie> findMovieListWithSQL(int conditionType, String condition) {
 		return dynamicHibernateService.findList("dynamicFindMovieListWithSQL",
 				makeArguments(conditionType, condition));
 	}
 
-	public List findMovieListWithoutReturn(int conditionType, String condition)
-			throws Exception {
+	public List<Object[]> findMovieListWithoutReturn(int conditionType,
+			String condition) {
 		return dynamicHibernateService.findList(
 				"dynamicFindMovieListWithoutReturn", makeArguments(
 						conditionType, condition));
 	}
 
-	public List findMovieListWithScalar(int conditionType, String condition)
-			throws Exception {
+	public List<Object[]> findMovieListWithScalar(int conditionType,
+			String condition) {
 		Object[] args = new Object[3];
 		if (conditionType == 0) {
 			args[0] = "director=%" + condition + "%";
@@ -88,7 +85,7 @@ public class MovieDaoHibernateImpl extends HibernateDaoSupport implements
 				"dynamicFindMovieListWithScalar", args);
 	}
 
-	public List findMovieListByCountry(String countryCode) throws Exception {
+	public List<Object[]> findMovieListByCountry(String countryCode) {
 		Object[] args = new Object[3];
 		args[0] = "countryCode=%" + countryCode + "%";
 		args[1] = "sortColumn=movie.director";
@@ -98,35 +95,36 @@ public class MovieDaoHibernateImpl extends HibernateDaoSupport implements
 				"dynamicFindMovieListByCountry", args);
 	}
 
-	public List findMovieListAll() throws Exception {
-		return this.getHibernateTemplate().find(
+	@SuppressWarnings("unchecked")
+	public List<Movie> findMovieListAll() {
+		return super.getHibernateTemplate().find(
 				"FROM Movie movie ORDER BY movie.title");
 	}
 
-	public void removeMovie(Movie movie) throws Exception {
-		this.getHibernateTemplate().delete(movie);
+	public void removeMovie(Movie movie) {
+		super.getHibernateTemplate().delete(movie);
 	}
 
-	public void updateMovie(Movie movie) throws Exception {
-		this.getHibernateTemplate().update(movie);
+	public void updateMovie(Movie movie) {
+		super.getHibernateTemplate().update(movie);
 	}
 
-	public void updateMovieByBulk(Movie movie) throws Exception {
+	public void updateMovieByBulk(Movie movie) {
 		StringBuffer hqlBuf = new StringBuffer();
 		hqlBuf.append("UPDATE Movie movie ");
 		hqlBuf.append("SET movie.director = ? ");
 		hqlBuf.append("WHERE movie.movieId = ? ");
 
-		this.getHibernateTemplate().bulkUpdate(hqlBuf.toString(),
+		super.getHibernateTemplate().bulkUpdate(hqlBuf.toString(),
 				new Object[] { movie.getDirector(), movie.getMovieId() });
 	}
 
-	public void createCategory(Category category) throws Exception {
-		this.getHibernateTemplate().save(category);
+	public void createCategory(Category category) {
+		super.getHibernateTemplate().save(category);
 	}
 
-	public void createCountry(Country country) throws Exception {
-		this.getHibernateTemplate().save(country);
+	public void createCountry(Country country) {
+		super.getHibernateTemplate().save(country);
 	}
 
 	private Object[] makeArguments(int conditionType, String condition) {

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.anyframe.hibernate.AbstractConfigurationalTest;
 import org.anyframe.hibernate.SetUpInitData;
+import org.anyframe.sample.hibernate.model.bidirection.Category;
 import org.anyframe.sample.hibernate.model.bidirection.Movie;
 import org.hibernate.Query;
 import org.junit.Assert;
@@ -79,7 +80,7 @@ public class HibernateFetchWithSubselectTest extends
 				Assert.assertEquals("fail to match a movie director.", "Jaeyong Gwak",
 						movie.getDirector());
 
-				Set categories = movie.getCategories();
+				Set<Category> categories = movie.getCategories();
 				Assert.assertEquals("fail to match the size of category list.", 2,
 						categories.size());
 			} else if (i == 1) {
@@ -88,7 +89,7 @@ public class HibernateFetchWithSubselectTest extends
 				Assert.assertEquals("fail to match a movie director.", "Hojun Kim",
 						movie.getDirector());
 
-				Set categories = movie.getCategories();
+				Set<Category> categories = movie.getCategories();
 				Assert.assertEquals("fail to match the size of category list.", 2,
 						categories.size());
 			} else if (i == 2) {
@@ -97,7 +98,7 @@ public class HibernateFetchWithSubselectTest extends
 				Assert.assertEquals("fail to match a movie director.", "Hideo Nakata",
 						movie.getDirector());
 
-				Set categories = movie.getCategories();
+				Set<Category> categories = movie.getCategories();
 				Assert.assertEquals("fail to match the size of category list.", 1,
 						categories.size());
 			}

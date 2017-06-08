@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 
 /**
  * By integrating Hibernate and Velocity, this services helps in dynamically
@@ -89,7 +90,6 @@ import org.slf4j.LoggerFactory;
  * @author SoYon Lim
  * 
  */
-@SuppressWarnings("unchecked")
 public interface DynamicHibernateService {
 	Logger LOGGER = LoggerFactory.getLogger(DynamicHibernateService.class);
 
@@ -108,11 +108,12 @@ public interface DynamicHibernateService {
 	 *            Variable values for replacing in phrases handled with
 	 *            variables
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	List findListByNamedParam(String queryName, String[] paramNames,
-			Object[] values) throws Exception;
+	<T> List<T> findListByNamedParam(String queryName, String[] paramNames,
+			Object[] values) throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -128,11 +129,12 @@ public interface DynamicHibernateService {
 	 * @param value
 	 *            variable value for replacing in phrases handled with variable
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	List findListByNamedParam(String queryName, String paramName, Object value)
-			throws Exception;
+	<T> List<T> findListByNamedParam(String queryName, String paramName,
+			Object value) throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -147,10 +149,12 @@ public interface DynamicHibernateService {
 	 *            defines as 'name=value' the variable values for replacing the
 	 *            variables defined in dynamic HQL
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	List findList(String queryName, Object[] values) throws Exception;
+	<T> List<T> findList(String queryName, Object[] values)
+			throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -171,11 +175,12 @@ public interface DynamicHibernateService {
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	List findList(String queryName, Object[] values, int pageIndex, int pageSize)
-			throws Exception;
+	<T> List<T> findList(String queryName, Object[] values, int pageIndex,
+			int pageSize) throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -198,11 +203,13 @@ public interface DynamicHibernateService {
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	List findListByNamedParam(String queryName, String[] paramNames,
-			Object[] values, int pageIndex, int pageSize) throws Exception;
+	<T> List<T> findListByNamedParam(String queryName, String[] paramNames,
+			Object[] values, int pageIndex, int pageSize)
+			throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -225,11 +232,13 @@ public interface DynamicHibernateService {
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	List findListByNamedParam(String queryName, String paramName, Object value,
-			int pageIndex, int pageSize) throws Exception;
+	<T> List<T> findListByNamedParam(String queryName, String paramName,
+			Object value, int pageIndex, int pageSize)
+			throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -246,11 +255,12 @@ public interface DynamicHibernateService {
 	 *            variable values for replacing in phrases handled with
 	 *            variables
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	Object findByNamedParam(String queryName, String[] paramNames,
-			Object[] values) throws Exception;
+	<T> T findByNamedParam(String queryName, String[] paramNames,
+			Object[] values) throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -268,11 +278,12 @@ public interface DynamicHibernateService {
 	 *            variable value for replacing in phrases handled with variable
 	 * @return being specified HQL execution results, returns numerous data in a
 	 *         list type
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	Object findByNamedParam(String queryName, String paramName, Object value)
-			throws Exception;
+	<T> T findByNamedParam(String queryName, String paramName, Object value)
+			throws DataAccessException;
 
 	/**
 	 * We find the appropropriate HQL by the dynamic HQL's identifier defined in
@@ -287,9 +298,9 @@ public interface DynamicHibernateService {
 	 *            defines as 'name=value' the variable values for replacing the
 	 *            variables defined in dynamic HQL
 	 * @return being specified query execution results
-	 * @throws Exception
-	 *             in the case there is a problem in executing the specified HQL
+	 * 
+	 * @throws DataAccessException
+	 *             if there is any problem executing the query
 	 */
-	Object find(String queryName, Object[] values) throws Exception;
-
+	<T> T find(String queryName, Object[] values) throws DataAccessException;
 }

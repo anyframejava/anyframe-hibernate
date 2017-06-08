@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.anyframe.hibernate.AbstractConfigurationalTest;
 import org.anyframe.hibernate.SetUpInitData;
+import org.anyframe.sample.hibernate.model.bidirection.Category;
 import org.anyframe.sample.hibernate.model.bidirection.Country;
 import org.anyframe.sample.hibernate.model.bidirection.Movie;
 import org.junit.Test;
@@ -44,7 +45,6 @@ public class HibernateSecondLevelCacheTest extends AbstractConfigurationalTest {
 	 * @throws Exception
 	 */
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testFindCountry() throws Exception {
 		// 1. insert init data. hibernate put initial data into 1LC.
 		newSession();
@@ -55,7 +55,7 @@ public class HibernateSecondLevelCacheTest extends AbstractConfigurationalTest {
 		newSession();
 		Country country = (Country) session.get(Country.class, "CTR-0001");
 
-		Set movies = country.getMovies();
+		Set<Movie> movies = country.getMovies();
 		movies.iterator();
 		closeSession();
 
@@ -77,7 +77,6 @@ public class HibernateSecondLevelCacheTest extends AbstractConfigurationalTest {
 	 * @throws Exception
 	 */
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testFindMovie() throws Exception {
 		// 1. insert init data. hibernate put initial data into 1LC.
 		newSession();
@@ -88,7 +87,7 @@ public class HibernateSecondLevelCacheTest extends AbstractConfigurationalTest {
 		newSession();
 		Movie movie = (Movie) session.get(Movie.class, "MV-00001");
 
-		Set categories = movie.getCategories();
+		Set<Category> categories = movie.getCategories();
 		categories.iterator();
 		closeSession();
 
