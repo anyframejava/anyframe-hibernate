@@ -30,14 +30,6 @@
             		<imagedata align="center"
 						fileref="../image/hibernate/onetoone.png" />
           		</imageobject>
-          		<textobject>
-          			<phrase>1:1 관계에 놓인 두 클래스를 각각의 테이블로 매핑하는 사례를 나타내는 그림이다. 왼쪽 그림은 클래스 다이어그램으로 Foo : Bar = 1:1 이며, 
-          			단방향 참조 관계를 표현하고 있다. 이것은 오른쪽 그림 상단의 ERD와 같이 각각 TBL_FOO와 TBL_BAR로 매핑될 수 있으며, 별도 추가 컬럼을 필요로 하지는 
-          			않으면서 동일한 Primary Key를 사용하고 있음을 알 수 있다. 이와 같은 매핑 관계를 Hibernate Mapping XML 파일에 정의하는 방법은 오른쪽 그림 하단의 
-        			내용과 같다. 그림 내용에 대해 설명하자면, Foo, Bar 각각의 클래스 및 속성 정보를 class 태그를 이용하여 정의하고, 두 클래스간 참조 관계에 대해서는 
-        			참조하는 측에서 one-to-one 태그를 이용하여 참조 관계에 놓인 클래스와 테이블을 명시하고 있다. 
-          			</phrase>
-          		</textobject>
         	</mediaobject>
 
         	<para>
@@ -65,15 +57,6 @@
             		<imagedata align="center"
 						fileref="../image/hibernate/onetomany.png" />
 				</imageobject>
-          		<textobject>
-          			<phrase>1:다 관계에 놓인 두 클래스를 각각의 테이블로 매핑하는 사례를 나타내는 그림이다. 왼쪽 그림은 클래스 다이어그램으로 Foo : Bar = 1:m이며, 
-          			단방향 참조 관계를 표현하고 있다. 이것은  오른쪽 그림 상단의  ERD와 같이 각각 TBL_FOO, TBL_BAR로 매핑될 수 있으며, TBL_BAR 테이블은 TBL_FOO 테이블에 
-          			대한 Foreign Key가 필요하다. 이와 같은 매핑 관계를 Hibernate Mapping XML 파일에 정의하는 방법은 오른쪽 그림 하단의 내용과 같다. 그림 내용
-					에 대해 설명하자면, Foo, Bar 각각의 클래스 및 속성 정보를 class 태그를 이용하여 정의하고, A 측에서 B 클래스에 대해 
-					set 태그를 이용하여 Collection 형태를 표현한다. 또한 set 태그 내에서는 one-to-many 태그를 이용하여 두 객체 사이의 
-					관계를 명시하면서, key 태그를 통해 Foreign Key 컬럼을 명시하고 있다. 
-          			</phrase>
-          		</textobject>				
 			</mediaobject>
 
 			<para>
@@ -696,17 +679,6 @@
 					<imagedata align="center"
 						fileref="../image/hibernate/manytomany.png" />
 	          	</imageobject>
-          		<textobject>
-          			<phrase>다:다 관계에 놓인 두 클래스를 각각의 테이블로 매핑하는 사례를 나타내는 그림이다. 
-          			왼쪽 그림은 클래스 다이어그램으로 User : Role = m:n이며, 단방향 참조 관계를 표현하고 있다. 이것은 오른쪽 그림 상단의 
-		        	ERD와 같이 각각 TBL_USER, TBL_ROLE로 매핑될 수 있으며, 각 테이블의 Primary Key를 Foreign Key로 가지는 Association 
-		        	테이블인 TBL_USER_ROLE이 필요하다. 이와 같은 매핑 관계를 Hibernate Mapping XML 파일에 정의하는 방법은 오른쪽 그림 
-		        	하단의 내용과 같다. 그림 내용에 대해 설명하자면, User, Role 각각의 클래스 및 속성 정보를 class 태그를 이용하여 정의하고, User 측에서 Role
-		         	클래스에 대해 set 태그를 이용하여 Collection 형태를 표현하고 연관된 테이블로는 Association 테이블인 TBL_USER_ROLE로 
-		         	정의한다. 또한 set 태그 내에서는 many-to-many 태그를 이용하여 두 객체 사이의 관계를 명시하면서, key 태그를 통해 Foreign 
-		         	Key 컬럼을 명시하고 있다.
-          			</phrase>
-          		</textobject>		          	
 			</mediaobject>
 	
 	        <para>
@@ -744,9 +716,6 @@
             		<imagedata align="center"
 						fileref="../image/hibernate/inheritance.png" />
 				</imageobject>
-				<textobject>
-          			<phrase>상속 관계에 참여하는 모든 Parent, Child 클래스들을 모두 한 개의 테이블로 매핑하고, Child 클래스의유형을 구분하기 위해 별도 Discriminator 칼럼을 추가로 정의하는 매핑 방법.</phrase>
-          		</textobject>
 			</mediaobject>
 
         	<para>
@@ -830,15 +799,6 @@
             		<imagedata align="center"
 						fileref="../image/hibernate/inheritance1.png" />
           		</imageobject>
-          		<textobject>
-          			<phrase>상속 관계에 참여하는 모든 Parent, Child 클래스들을 테이블로 매핑하는 사례를 나타내는 그림이다. 
-          			왼쪽 상단 그림은 클래스다이어그램으로 User 클래스를 상속받은 Guest, Member, Staff 클래스들이 존재한다. 그리고 
-	        		왼쪽 하단 그림은 ERD로 상속 관계에 참여하는 모든 클래스를 TBL_USER, TBL_GUEST, TBL_MEMBER, TBL_STAFF라는 테이블로
-	        		각각 매핑하고 있다. 이와 같은 매핑 관계를 Hibernate Mapping XML 파일에 정의하는 방법은 오른쪽 그림의 내용과 같다. 그림 
-	        		내용에 대해 설명하자면, User 클래스 정보를 class 태그를 이용하여 정의하고, 하위에 joined-subclass 태그를 이용하여
-	        		User 클래스를 상속하는 하위 클래스와 속성들에 대해 정의하고 있다.
-          			</phrase>
-          		</textobject>	          		
         	</mediaobject>
 
         	<para>
@@ -916,15 +876,6 @@
             		<imagedata align="center"
 						fileref="../image/hibernate/inheritance2.png" />
           		</imageobject>
-          		<textobject>
-          			<phrase>상속 관계에 참여하는 모든 Parent, Child 클래스들을 테이블로 매핑하는 사례를 나타내는 그림이다. 
-          			왼쪽 상단 그림은 클래스다이어그램으로 User 클래스를 상속받은 Guest, Member, Staff 클래스들이  존재한다. 그리고 
-	        		왼쪽 하단 그림은 ERD로 TBL_GUEST, TBL_MEMBER, TBL_STAFF라는 테이블로 각각 매핑하고 있다. 이와 같은 매핑 관계를 
-	        		Hibernate Mapping XML 파일에 정의하는 방법은 오른쪽 그림의 내용과 같다. 그림  내용에 대해 설명하자면, User 클래스 
-	        		정보를 class 태그를 이용하여 정의하고 User 클래스의 abstract 속성을 true로 정의하고 있다. 또한 하위에 union-subclass 
-	        		태그를 이용하여 각 하위 클래스들과 속성들에 대해 정의하고 있다.
-          			</phrase>
-          		</textobject>	          		
         	</mediaobject>
 
         	<para>

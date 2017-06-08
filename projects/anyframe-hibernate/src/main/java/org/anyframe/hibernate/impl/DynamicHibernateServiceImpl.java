@@ -18,6 +18,7 @@ package org.anyframe.hibernate.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,7 +58,6 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.xml.sax.SAXException;
@@ -71,7 +71,7 @@ import org.xml.sax.XMLReader;
  * based data access to be simple and the HQL/SQL is understood easily resulting
  * in less errors and easier HQL/SQL modifications.
  * <p>
- * Configuration Example : 
+ * Configuration Example :
  * 
  * <pre>
  * &lt;bean id=&quot;dynamicHibernateService&quot;
@@ -139,7 +139,10 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 
 	private final static String DELIMETER = "=";
 
-	private final Map<String, QueryInfo> queries = new HashMap<String, QueryInfo>();
+	private Map<String, QueryInfo> queries = new HashMap<String, QueryInfo>();
+
+	@SuppressWarnings("unused")
+	private SessionFactory sessionFactory;
 
 	private List<String> fileNames;
 
@@ -160,6 +163,7 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 		this.hibernateTemplate = new HibernateTemplate(sessionFactory);
 	}
 
@@ -215,12 +219,9 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 * @param value
 	 *            variable value for replacing in phrases handled with variable
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	public <T> List<T> findListByNamedParam(String queryName, String paramName,
-			Object value) throws DataAccessException {
+	public <E> List<E> findListByNamedParam(String queryName, String paramName,
+			Object value) {
 		return findListByNamedParam(queryName, new String[] { paramName },
 				new Object[] { value });
 	}
@@ -240,12 +241,9 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            Variable values for replacing in phrases handled with
 	 *            variables
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	public <T> List<T> findListByNamedParam(String queryName,
-			String[] paramNames, Object[] values) throws DataAccessException {
+	public <E> List<E> findListByNamedParam(String queryName,
+			String[] paramNames, Object[] values) {
 		return findListByNamedParam(queryName, paramNames, values, 0, 0);
 	}
 
@@ -262,12 +260,8 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            defines as 'name=value' the variable values for replacing the
 	 *            variables defined in dynamic HQL
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	public <T> List<T> findList(String queryName, Object[] values)
-			throws DataAccessException {
+	public <E> List<E> findList(String queryName, Object[] values) {
 		return findList(queryName, values, 0, 0);
 	}
 
@@ -292,13 +286,9 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	public <T> List<T> findListByNamedParam(String queryName, String paramName,
-			Object value, int pageIndex, int pageSize)
-			throws DataAccessException {
+	public <E> List<E> findListByNamedParam(String queryName, String paramName,
+			Object value, int pageIndex, int pageSize) {
 		return findListByNamedParam(queryName, paramName, value, pageIndex,
 				pageSize);
 	}
@@ -322,12 +312,9 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	public <T> List<T> findList(String queryName, Object[] values,
-			int pageIndex, int pageSize) throws DataAccessException {
+	public <E> List<E> findList(String queryName, Object[] values,
+			int pageIndex, int pageSize) {
 		final Context context = generateVelocityContext(values);
 		return executeFind(context, queryName, pageIndex, pageSize);
 	}
@@ -353,13 +340,9 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	public <T> List<T> findListByNamedParam(String queryName,
-			String[] paramNames, Object[] values, int pageIndex, int pageSize)
-			throws DataAccessException {
+	public <E> List<E> findListByNamedParam(String queryName,
+			String[] paramNames, Object[] values, int pageIndex, int pageSize) {
 		final Context context = generateVelocityContext(paramNames, values);
 		return executeFind(context, queryName, pageIndex, pageSize);
 	}
@@ -377,15 +360,10 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            defines as 'name=value' the variable values for replacing the
 	 *            variables defined in dynamic HQL
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> T find(String queryName, Object[] values)
-			throws DataAccessException {
+	public Object find(String queryName, Object[] values) {
 		Context context = generateVelocityContext(values);
-		return (T) execute(context, queryName);
+		return execute(context, queryName);
 	}
 
 	/**
@@ -403,15 +381,11 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            variable values for replacing in phrases handled with
 	 *            variables
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> T findByNamedParam(String queryName, String[] paramNames,
-			Object[] values) throws DataAccessException {
+	public Object findByNamedParam(String queryName, String[] paramNames,
+			Object[] values) {
 		Context context = generateVelocityContext(paramNames, values);
-		return (T) execute(context, queryName);
+		return execute(context, queryName);
 	}
 
 	/**
@@ -430,14 +404,10 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            variable value for replacing in phrases handled with variable
 	 * @return being specified HQL execution results, returns numerous data in a
 	 *         list type
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	@SuppressWarnings("unchecked")
-	public <T> T findByNamedParam(String queryName, String paramName,
-			Object value) throws DataAccessException {
-		return (T) findByNamedParam(queryName, new String[] { paramName },
+	public Object findByNamedParam(String queryName, String paramName,
+			Object value) {
+		return findByNamedParam(queryName, new String[] { paramName },
 				new Object[] { value });
 	}
 
@@ -449,19 +419,16 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 * @param queryName
 	 *            executable dynamic HQL's identifier
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
-	@SuppressWarnings("unchecked")
-	private <T> T execute(final Context context, final String queryName)
-			throws DataAccessException {
-		return this.hibernateTemplate.execute(new HibernateCallback<T>() {
-			public T doInHibernate(Session session) throws DataAccessException {
+	private Object execute(final Context context, final String queryName) {
+		return this.hibernateTemplate.execute(new HibernateCallback<Object>() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
 				try {
 					Query query = findInternal(session, queryName, context);
-					return (T) query.uniqueResult();
+					return query.uniqueResult();
 				} catch (Exception e) {
+					e.printStackTrace();
 					throw new HibernateException(e.getMessage());
 				}
 			}
@@ -481,34 +448,26 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	 *            the number of data for showing in the selected page (greater
 	 *            than equal to one)
 	 * @return being specified query execution results
-	 * 
-	 * @throws DataAccessException
-	 *             if there is any problem executing the query
 	 */
 	@SuppressWarnings("unchecked")
-	private <T> List<T> executeFind(final Context context,
-			final String queryName, final int pageIndex, final int pageSize)
-			throws DataAccessException {
-		return this.hibernateTemplate
-				.executeFind(new HibernateCallback<List>() {
-					public List doInHibernate(Session session)
-							throws DataAccessException {
-						try {
-							Query query = findInternal(session, queryName,
-									context);
-							if (pageIndex > 0 && pageSize > 0) {
-								query
-										.setFirstResult((pageIndex - 1)
-												* pageSize);
-								query.setMaxResults(pageSize);
-							}
-
-							return query.list();
-						} catch (IOException e) {
-							throw new HibernateException(e.getMessage());
-						}
+	private <E> List<E> executeFind(final Context context,
+			final String queryName, final int pageIndex, final int pageSize) {
+		return this.hibernateTemplate.executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				try {
+					Query query = findInternal(session, queryName, context);
+					if (pageIndex > 0 && pageSize > 0) {
+						query.setFirstResult((pageIndex - 1) * pageSize);
+						query.setMaxResults(pageSize);
 					}
-				});
+
+					return query.list();
+				} catch (IOException e) {
+					throw new HibernateException(e.getMessage());
+				}
+			}
+		});
 	}
 
 	/**
@@ -669,7 +628,7 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 
 			String queryName = queryElement.attributeValue("name", "");
 
-			if ("".equals(queryName))
+			if (queryName.equals(""))
 				throw new MissingRequiredPropertyException(
 						"DynamicHibernate Service : name is essential attribute in a <query>.");
 
@@ -852,8 +811,8 @@ public class DynamicHibernateServiceImpl implements DynamicHibernateService,
 	}
 
 	private class QueryInfo {
-		private final String type;
-		private final String statement;
+		private String type;
+		private String statement;
 		private List<ReturnInfo> returnList = new ArrayList<ReturnInfo>();
 		private Map<String, String> returnJoinMap = new HashMap<String, String>();
 		private Map<String, String> returnScalarMap = new HashMap<String, String>();

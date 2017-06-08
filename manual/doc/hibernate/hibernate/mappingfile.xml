@@ -63,7 +63,6 @@
 					</para>
 	
 					<informaltable>
-						<caption><![CDATA[<hibernate-mapping>]]> 속성 목록</caption>
 						<tgroup cols="4">
 							<colspec colnum="1" colname="col1" colwidth="1*" />
 							<colspec colnum="2" colname="col2" colwidth="3*" />
@@ -143,7 +142,6 @@
 						<![CDATA[<class>]]>태그의 property는 다음과 같다.
 					</para>
 					<informaltable>
-						<caption><![CDATA[<class>]]> 속성 목록</caption>
 						<tgroup cols="4">
 							<colspec colnum="1" colname="col1" colwidth="1*" />
 							<colspec colnum="2" colname="col2" colwidth="3*" />
@@ -246,7 +244,6 @@
 					</para>
 
 					<informaltable>
-						<caption><![CDATA[<id>]]> 속성 목록</caption>
 						<tgroup cols="4">
 							<colspec colnum="1" colname="col1" colwidth="1*" />
 							<colspec colnum="2" colname="col2" colwidth="3*" />
@@ -324,7 +321,6 @@
 					</para>
 
 					<informaltable>
-						<caption><![CDATA[<property>]]> 속성 목록</caption>
 						<tgroup cols="4">
 							<colspec colnum="1" colname="col1" colwidth="1*" />
 							<colspec colnum="2" colname="col2" colwidth="3*" />
@@ -374,7 +370,6 @@
 					</para>
 
 					<informaltable>
-						<caption><![CDATA[<column>]]> 속성 목록</caption>
 						<tgroup cols="4">
 							<colspec colnum="1" colname="col1" colwidth="1*" />
 							<colspec colnum="2" colname="col2" colwidth="3*" />
@@ -458,7 +453,6 @@
             		</para>
 
 					<informaltable>
-						<caption>Java primitive mapping type 목록</caption>
 						<tgroup align="center" cols="4">
               				<colspec colnum="1" colname="col1" colwidth="1*"/>
 							<colspec colnum="2" colname="col2" colwidth="3*"/>
@@ -648,7 +642,6 @@
             		</para>
 
             		<informaltable>
-            			<caption>Date And Time Mapping Type 목록</caption>
               			<tgroup align="center" cols="4">
                				<colspec colnum="1" colname="col1" colwidth="1*"/>
 							<colspec colnum="2" colname="col2" colwidth="3*"/>
@@ -752,7 +745,6 @@
             		</para>
 
 					<informaltable>
-						<caption>Binary And Large Object Mapping Type 목록</caption>
 						<tgroup align="center" cols="4">
               					<colspec colnum="1" colname="col1" colwidth="1*"/>
 								<colspec colnum="2" colname="col2" colwidth="3*"/>
